@@ -1,0 +1,18 @@
+[package]
+name = "chappie-adapter"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.75"
+async-trait = "0.1.73"
+chappie-kernel = { path = "../chappie-kernel" }
+chrono = "0.4.26"
+derive-new = "0.5.9"
+dotenv = "0.15.0"
+http = "0.2.9"
+sqlx = { version = "0.7.1", features = ["runtime-tokio-rustls", "postgres", "chrono"] }
+tokio = { version = "1.32.0", features = ["rt", "macros", "test-util"] }
+ulid = "1.0.0"

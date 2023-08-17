@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  database:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: 'database'
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: chappie
+      POSTGRES_USER: chappie
+      POSTGRES_HOST: chappie
+      POSTGRES_DB: chappie
+      TZ: Asia/Tokyo
+    restart: always
+volumes:
+  pgdata:

@@ -1,0 +1,14 @@
+[package]
+name = "chappie-kernel"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.75"
+async-trait = "0.1.73"
+chrono = "0.4.26"
+derive-new = "0.5.9"
+ulid = "1.0.0"
+uuid = { git = "https://github.com/uuid-rs/uuid",  branch = "cargo/1.2.2", features = ["v4"] }

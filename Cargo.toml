@@ -1,0 +1,7 @@
+[workspace]
+members = [
+	"chappie-driver",
+	"chappie-adapter",
+	"chappie-app",
+	"chappie-kernel"
+]

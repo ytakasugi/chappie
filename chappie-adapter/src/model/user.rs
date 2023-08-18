@@ -1,3 +1,4 @@
+use argon2::password_hash::SaltString;
 use chrono::{Local, NaiveDateTime};
 use sqlx::FromRow;
 
@@ -9,6 +10,7 @@ pub struct UserTable {
     pub user_name: String,
     pub email: String,
     pub password: String,
+    pub salt: SaltString,
     pub role: String,
     pub status: String,
     pub created_at: NaiveDateTime,
@@ -25,10 +27,11 @@ impl TryFrom<NewUser> for UserTable {
             user_name: user.user_name,
             email: user.email,
             password: user.password,
+            salt: user.salt,
             role: user.role,
             status: "1".to_string(),
             created_at: Local::now().naive_local(),
-            updated_at: Some(Local::now().naive_local()),
+            updated_at: None,
             delete_flag: false,
         })
     }

@@ -7,6 +7,7 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.75"
+argon2 = "0.5.1"
 async-trait = "0.1.73"
 chrono = "0.4.26"
 derive-new = "0.5.9"

@@ -1,5 +1,5 @@
 INSERT INTO M_USER(
-    USER_ID, USER_NAME, EMAIL, PASSWORD, ROLE
+    USER_ID, USER_NAME, EMAIL, PASSWORD, SALT, ROLE
 ) VALUES (
-    $1, $2, $3, $4, $5
+    $1, $2, $3, $4, $5, $6
 )

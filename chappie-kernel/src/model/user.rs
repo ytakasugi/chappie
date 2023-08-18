@@ -1,3 +1,4 @@
+use argon2::password_hash::SaltString;
 use chrono::NaiveDateTime;
 use derive_new::new;
 
@@ -10,6 +11,7 @@ pub struct User {
     pub user_name: String,
     pub email: String,
     pub password: String,
+    pub salt: SaltString,
     pub role: String,
     pub status: String,
     pub created_at: NaiveDateTime,
@@ -24,5 +26,6 @@ pub struct NewUser {
     pub user_name: String,
     pub email: String,
     pub password: String,
+    pub salt: SaltString,
     pub role: String,
 }

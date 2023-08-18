@@ -7,11 +7,14 @@ use chappie_kernel::repository::user::UserRepository;
 
 use super::DatabaseRepository;
 use crate::model::user::UserTable;
+use crate::helper;
 
 #[async_trait]
 impl UserRepository for DatabaseRepository<User> {
     async fn create(&self, source: NewUser) -> anyhow::Result<()> {
         let user_table: UserTable = source.try_into()?;
+        // パスワードハッシュ化
+        let password_hash = helper::hash(&user_table.password, &user_table.salt).unwrap();
         // コネクションプール
         let pool = self.pool.0.clone();
         // トランザクションを開始する
@@ -23,7 +26,8 @@ impl UserRepository for DatabaseRepository<User> {
             user_table.user_id,
             user_table.user_name,
             user_table.email,
-            user_table.password,
+            password_hash,
+            user_table.salt.to_string(),
             user_table.role,
         )
         .execute(&mut *tx)
@@ -45,6 +49,7 @@ mod test {
     use chappie_kernel::repository::user::UserRepository;
     use ulid::Ulid;
 
+    use crate::helper;
     use crate::persistence::database::Db;
     use super::DatabaseRepository;
 
@@ -53,6 +58,7 @@ mod test {
         let db = Db::new().await;
         let repository = DatabaseRepository::new(db);
         let id = Ulid::new();
+        let salt = helper::generate_salt();
 
         repository
             .create(NewUser::new(
@@ -60,6 +66,7 @@ mod test {
                 "test_create_user".to_string(),
                 "testCreateUser@email.com".to_string(),
                 "P@ssword".to_string(),
+                salt,
                 "9".to_string()
             ))
             .await

@@ -4,6 +4,8 @@ use derive_new::new;
 
 use crate::persistence::database::Db;
 
+pub mod user;
+
 #[derive(new)]
 pub struct DatabaseRepository<T> {
     pool: Db,

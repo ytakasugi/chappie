@@ -1,4 +1,4 @@
-use chrono::{Local, DateTime};
+use chrono::{Local, NaiveDateTime};
 use sqlx::FromRow;
 
 use chappie_kernel::model::user::NewUser;
@@ -10,8 +10,9 @@ pub struct UserTable {
     pub email: String,
     pub password: String,
     pub role: String,
-    pub created_at: DateTime<Local>,
-    pub updated_at: Option<DateTime<Local>>,
+    pub status: String,
+    pub created_at: NaiveDateTime,
+    pub updated_at: Option<NaiveDateTime>,
     pub delete_flag: bool,
 }
 
@@ -25,9 +26,10 @@ impl TryFrom<NewUser> for UserTable {
             email: user.email,
             password: user.password,
             role: user.role,
-            created_at: user.created_at,
-            updated_at: user.updated_at,
-            delete_flag: user.delete_flag,
+            status: "1".to_string(),
+            created_at: Local::now().naive_local(),
+            updated_at: Some(Local::now().naive_local()),
+            delete_flag: false,
         })
     }
 }

@@ -1,4 +1,4 @@
-use chrono::{DateTime, Local};
+use chrono::NaiveDateTime;
 use derive_new::new;
 
 use super::Id;
@@ -11,8 +11,9 @@ pub struct User {
     pub email: String,
     pub password: String,
     pub role: String,
-    pub created_at: DateTime<Local>,
-    pub updated_at: Option<DateTime<Local>>,
+    pub status: String,
+    pub created_at: NaiveDateTime,
+    pub updated_at: Option<NaiveDateTime>,
     pub delete_flag: bool,
 }
 
@@ -24,7 +25,4 @@ pub struct NewUser {
     pub email: String,
     pub password: String,
     pub role: String,
-    pub created_at: DateTime<Local>,
-    pub updated_at: Option<DateTime<Local>>,
-    pub delete_flag: bool,
 }

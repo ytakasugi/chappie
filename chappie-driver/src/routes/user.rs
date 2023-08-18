@@ -7,6 +7,7 @@ use crate::{
     model::user::JsonCreateUser,
     module::{Modules, ModulesExt},
 };
+
 #[tracing::instrument(skip(modules))]
 pub async fn create(
     Json(source): Json<JsonCreateUser>,

@@ -1,15 +1,11 @@
-use dotenv::dotenv;
+use std::sync::Arc;
 
-pub fn init() {
-    dotenv().ok();
+use chappie_driver::{module::Modules, startup::startup};
 
-    // ログ出力を設定する
-    let format = tracing_subscriber::fmt::format()
-        .with_level(true)
-        .with_target(false)
-        .with_thread_ids(true)
-        .with_thread_names(true)
-        .compact();
+#[tokio::main]
+async fn main() -> anyhow::Result<()> {
+    let modules = Modules::new().await;
+    startup(Arc::new(modules)).await;
 
-    tracing_subscriber::fmt().event_format(format).init();
+    Ok(())
 }

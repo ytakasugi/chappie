@@ -6,3 +6,19 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+anyhow = "1.0.75"
+axum = { version = "0.6.20", features = ["multipart"] }
+chappie-adapter = { path = "../chappie-adapter" }
+chappie-app = { path = "../chappie-app" }
+chappie-kernel = { path = "../chappie-kernel" }
+csv = "1.2.2"
+derive-new = "0.5.9"
+dotenv = "0.15.0"
+futures = { version = "0.3.28", features = ["executor"] }
+http-body = "0.4.5"
+serde = { version = "1.0.183", features = ["derive"] }
+thiserror = "1.0.47"
+tokio = { version = "1.32.0", features = ["rt", "macros", "test-util"] }
+tracing = "0.1.37"
+tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
+validator = { version = "0.16.1", features = ["derive"] }

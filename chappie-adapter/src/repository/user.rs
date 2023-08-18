@@ -6,8 +6,8 @@ use chappie_kernel::model::user::User;
 use chappie_kernel::repository::user::UserRepository;
 
 use super::DatabaseRepository;
-use crate::model::user::UserTable;
 use crate::helper;
+use crate::model::user::UserTable;
 
 #[async_trait]
 impl UserRepository for DatabaseRepository<User> {
@@ -49,9 +49,9 @@ mod test {
     use chappie_kernel::repository::user::UserRepository;
     use ulid::Ulid;
 
+    use super::DatabaseRepository;
     use crate::helper;
     use crate::persistence::database::Db;
-    use super::DatabaseRepository;
 
     #[tokio::test]
     async fn test_create() {
@@ -67,7 +67,7 @@ mod test {
                 "testCreateUser@email.com".to_string(),
                 "P@ssword".to_string(),
                 salt,
-                "9".to_string()
+                "9".to_string(),
             ))
             .await
             .unwrap();

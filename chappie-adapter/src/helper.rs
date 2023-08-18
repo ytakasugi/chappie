@@ -1,9 +1,8 @@
 use argon2::{
     password_hash::{
-        rand_core::OsRng,
-        PasswordHash, PasswordHasher, PasswordVerifier, SaltString, self
+        self, rand_core::OsRng, PasswordHash, PasswordHasher, PasswordVerifier, SaltString,
     },
-    Argon2, Version, Params, Algorithm
+    Algorithm, Argon2, Params, Version,
 };
 
 pub fn generate_salt() -> SaltString {
@@ -32,7 +31,9 @@ pub fn veryfy(password: &str, ph: String) -> Result<(), password_hash::Error> {
     );
 
     let parsed_hash = PasswordHash::new(&ph)?;
-    let _veryfy = argon2.verify_password(password.as_bytes(), &parsed_hash).is_ok();
+    let _veryfy = argon2
+        .verify_password(password.as_bytes(), &parsed_hash)
+        .is_ok();
 
     Ok(())
-} 
+}

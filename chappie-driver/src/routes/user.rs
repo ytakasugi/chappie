@@ -10,8 +10,8 @@ use crate::{
 
 #[tracing::instrument(skip(modules))]
 pub async fn create(
-    Json(source): Json<JsonCreateUser>,
     Extension(modules): Extension<Arc<Modules>>,
+    Json(source): Json<JsonCreateUser>,
 ) -> Result<impl IntoResponse, StatusCode> {
     let res = modules.user_usecase().create(source.into()).await;
 

@@ -7,7 +7,7 @@ edition = "2021"
 
 [dependencies]
 anyhow = "1.0.75"
-axum = { version = "0.4.3", features = ["multipart"] }
+axum = { version = "0.6.2", features = ["multipart"] }
 chappie-adapter = { path = "../chappie-adapter" }
 chappie-app = { path = "../chappie-app" }
 chappie-kernel = { path = "../chappie-kernel" }

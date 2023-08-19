@@ -34,6 +34,6 @@ async fn create_user_api() {
         .send()
         .await
         .unwrap();
-    
+
     assert_eq!(200, res.status());
 }

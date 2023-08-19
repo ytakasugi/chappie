@@ -20,3 +20,29 @@ impl<R: RepositoriesModuleExt> UserUseCase<R> {
             .await
     }
 }
+
+#[cfg(test)]
+mod test {
+    use std::sync::Arc;
+
+    use chappie_adapter::{modules::RepositoriesModule, persistence::database::Db};
+
+    use crate::model::user::CreateUser;
+
+    use super::UserUseCase;
+
+    #[tokio::test]
+    async fn create() {
+        let modules = RepositoriesModule::new(Db::new().await);
+        let usecase = UserUseCase::new(Arc::new(modules));
+
+        let source = CreateUser::new(
+            "useCaseTest001".to_string(),
+            "useCaseTest@email.com".to_string(),
+            "useCaseTestP@ssword".to_string(),
+            "9".to_string(),
+        );
+
+        usecase.create(source).await.unwrap();
+    }
+}

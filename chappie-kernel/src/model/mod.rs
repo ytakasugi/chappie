@@ -3,6 +3,7 @@ use derive_new::new;
 use std::marker::PhantomData;
 use ulid::Ulid;
 
+pub mod project;
 pub mod user;
 
 #[derive(new, Debug, Clone, Copy, PartialEq, Eq)]

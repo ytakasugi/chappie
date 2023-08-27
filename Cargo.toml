@@ -5,3 +5,4 @@ members = [
 	"chappie-app",
 	"chappie-kernel"
 ]
+resolver = "2"

@@ -4,6 +4,7 @@ use derive_new::new;
 
 use crate::persistence::database::Db;
 
+pub mod project;
 pub mod user;
 
 #[derive(new)]

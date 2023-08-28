@@ -28,7 +28,7 @@ jobs:
 
     - name: Set up database
       run: |
-        cd migration
+        cd ../../migration
         psql -h localhost -U chappie -d chappie -a -f 20230817125832_chappie.sql
     
     - name: Build and test
@@ -36,4 +36,5 @@ jobs:
     
     - name: Clean up database
       run: |
+        cd ../../migration
         psql -h localhost -U chappie -d chappie -a -f 20230817125832_chappie_drop.sql

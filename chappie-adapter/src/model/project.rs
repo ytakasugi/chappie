@@ -1,4 +1,4 @@
-use chrono::{Local, NaiveDateTime};
+use chrono::NaiveDateTime;
 use sqlx::FromRow;
 
 use chappie_kernel::model::project::NewProject;
@@ -20,8 +20,6 @@ pub struct ProjectTable {
 pub struct NewProjectTable {
     pub project_name: String,
     pub description: String,
-    pub created_at: NaiveDateTime,
-    pub updated_at: Option<NaiveDateTime>,
     pub manager_id: String,
 }
 
@@ -32,8 +30,6 @@ impl TryFrom<NewProject> for NewProjectTable {
         Ok(NewProjectTable {
             project_name: project.project_name,
             description: project.description,
-            created_at: Local::now().naive_local(),
-            updated_at: None,
             manager_id: project.manager_id.value.to_string(),
         })
     }

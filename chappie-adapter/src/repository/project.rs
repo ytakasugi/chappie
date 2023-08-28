@@ -34,3 +34,30 @@ impl ProjectRepository for DatabaseRepository<Project> {
         Ok(())
     }
 }
+
+#[cfg(test)]
+mod test {
+    use chappie_kernel::model::project::NewProject;
+    use chappie_kernel::model::Id;
+    use chappie_kernel::repository::project::ProjectRepository;
+    use ulid::Ulid;
+
+    use super::DatabaseRepository;
+    use crate::persistence::database::Db;
+
+    #[tokio::test]
+    async fn test_create() {
+        let db = Db::new().await;
+        let repository = DatabaseRepository::new(db);
+        let id = Ulid::new();
+
+        repository
+            .create(NewProject::new(
+                "TestCreateProject".to_string(),
+                "Test project".to_string(),
+                Id::new(id),
+            ))
+            .await
+            .unwrap();
+    }
+}

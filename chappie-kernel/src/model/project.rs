@@ -19,7 +19,5 @@ pub struct Project {
 pub struct NewProject {
     pub project_name: String,
     pub description: String,
-    pub created_at: NaiveDateTime,
-    pub updated_at: Option<NaiveDateTime>,
     pub manager_id: Id<Project>,
 }

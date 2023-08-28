@@ -1,0 +1,32 @@
+name: Rust CI
+
+on:
+  push:
+    branches:
+      - main  # 任意のブランチ名に変更
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: chappie
+          POSTGRES_PASSWORD: chappie
+          POSTGRES_DB: chappie
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Set up Rust
+      uses: actions-rs/toolchain@stable
+      with:
+        toolchain: stable
+
+    - name: Build and test
+      run: cargo build --verbose && cargo test --verbose

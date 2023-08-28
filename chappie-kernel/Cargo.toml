@@ -12,4 +12,4 @@ async-trait = "0.1.73"
 chrono = "0.4.26"
 derive-new = "0.5.9"
 ulid = "1.0.0"
-uuid = { git = "https://github.com/uuid-rs/uuid",  branch = "cargo/1.2.2", features = ["v4"] }
+uuid = { git = "https://github.com/uuid-rs/uuid",  branch = "cargo/1.4.1", features = ["v4"] }

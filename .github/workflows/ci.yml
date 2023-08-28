@@ -18,7 +18,7 @@ jobs:
           POSTGRES_USER: chappie
           POSTGRES_PASSWORD: chappie
           POSTGRES_DB: chappie
-
+    
     steps:
     - name: Check out code
       uses: actions/checkout@v3

@@ -25,16 +25,14 @@ jobs:
 
     - name: Set up Rust
       uses: dtolnay/rust-toolchain@stable
+    
+    - uses: baptiste0928/cargo-install@v2
+      name: Install sqlx-cli
+      with:
+        crate: sqlx-cli
 
     - name: Set up database
-      run: |
-        cd ../../migration
-        psql -h localhost -U chappie -d chappie -a -f 20230817125832_chappie.sql
+      run: sqlx migrate run
     
     - name: Build and test
       run: cargo build --verbose && cargo test --verbose
-    
-    - name: Clean up database
-      run: |
-        cd ../../migration
-        psql -h localhost -U chappie -d chappie -a -f 20230817125832_chappie_drop.sql

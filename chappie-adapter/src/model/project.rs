@@ -16,7 +16,6 @@ pub struct ProjectTable {
 /**
  * 新規プロジェクト作成用の構造体
  */
-#[derive(FromRow)]
 pub struct NewProjectTable {
     pub project_name: String,
     pub description: String,

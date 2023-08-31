@@ -7,12 +7,12 @@ use chappie_kernel::repository::user::UserRepository;
 
 use super::DatabaseRepository;
 use crate::helper;
-use crate::model::user::UserTable;
+use crate::model::user::NewUserTable;
 
 #[async_trait]
 impl UserRepository for DatabaseRepository<User> {
     async fn create(&self, source: NewUser) -> anyhow::Result<()> {
-        let user_table: UserTable = source.try_into()?;
+        let user_table: NewUserTable = source.try_into()?;
         // パスワードハッシュ化
         let password_hash = helper::hash(&user_table.password, &user_table.salt).unwrap();
         // コネクションプール

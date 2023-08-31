@@ -24,7 +24,6 @@ pub struct NewTicketTable {
     pub priority: i32,
     pub status: i32,
     pub progress: i32,
-    pub updated_at: Option<NaiveDateTime>,
     pub due_date: NaiveDate,
     pub project_id: i32,
     // user_id
@@ -41,7 +40,6 @@ impl TryFrom<NewTicket> for NewTicketTable {
             priority: ticket.priority,
             status: ticket.status,
             progress: ticket.progress,
-            updated_at: None,
             due_date: ticket.due_date,
             project_id: ticket.project_id,
             assignee_id: ticket.assignee_id.value.to_string(),

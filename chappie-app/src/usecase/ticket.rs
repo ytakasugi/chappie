@@ -1,0 +1,52 @@
+use std::sync::Arc;
+
+use derive_new::new;
+
+use chappie_adapter::modules::RepositoriesModuleExt;
+use chappie_kernel::repository::ticket::TicketRepository;
+
+use crate::model::ticket::CreateTicket;
+
+#[derive(new)]
+pub struct TicketUseCase<R: RepositoriesModuleExt> {
+    repositories: Arc<R>,
+}
+
+impl<R: RepositoriesModuleExt> TicketUseCase<R> {
+    pub async fn create(&self, source: CreateTicket) -> anyhow::Result<()> {
+        self.repositories
+            .ticket_repository()
+            .create(source.try_into()?)
+            .await
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use std::sync::Arc;
+
+    use chappie_adapter::{modules::RepositoriesModule, persistence::database::Db};
+    use crate::model::ticket::CreateTicket;
+    use crate::helper::LocalDateTime;
+
+    use super::TicketUseCase;
+
+    #[tokio::test]
+    async fn create() {
+        let modules = RepositoriesModule::new(Db::new().await);
+        let usecase = TicketUseCase::new(Arc::new(modules));
+
+        let source = CreateTicket::new(
+            "TestUseCaseTicket".to_string(),
+            "TestUseCaseTicket".to_string(),
+            9,
+            9,
+            0,
+            LocalDateTime("2023-12-31".to_string()),
+            1,
+            "01H95VREP370GZ080BBH4EZQ6J".to_string(),
+        );
+
+        usecase.create(source).await.unwrap();
+    }
+}

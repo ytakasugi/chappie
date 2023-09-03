@@ -6,8 +6,9 @@ use chappie_kernel::model::user::User;
 use chappie_kernel::repository::user::UserRepository;
 
 use super::DatabaseRepository;
-use crate::helper;
 use crate::model::user::NewUserTable;
+
+use super::helper;
 
 #[async_trait]
 impl UserRepository for DatabaseRepository<User> {
@@ -49,8 +50,8 @@ mod test {
     use chappie_kernel::repository::user::UserRepository;
     use ulid::Ulid;
 
+    use super::helper;
     use super::DatabaseRepository;
-    use crate::helper;
     use crate::persistence::database::Db;
 
     #[tokio::test]

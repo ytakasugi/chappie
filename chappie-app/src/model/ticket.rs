@@ -1,5 +1,6 @@
-use crate::helper::LocalDateTime;
 use chappie_kernel::model::ticket::NewTicket;
+
+use super::helper::convert_str_to_date;
 use derive_new::new;
 
 #[allow(clippy::too_many_arguments)]
@@ -10,7 +11,7 @@ pub struct CreateTicket {
     pub priority: i32,
     pub status: i32,
     pub progress: i32,
-    pub due_date: LocalDateTime,
+    pub due_date: String,
     pub project_id: i32,
     // user_id
     pub assignee_id: String,
@@ -26,7 +27,7 @@ impl TryFrom<CreateTicket> for NewTicket {
             c.priority,
             c.status,
             c.progress,
-            c.due_date.try_into()?,
+            convert_str_to_date(c.due_date)?,
             c.project_id,
             c.assignee_id.try_into()?,
         ))

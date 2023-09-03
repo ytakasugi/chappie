@@ -25,9 +25,8 @@ impl<R: RepositoriesModuleExt> TicketUseCase<R> {
 mod test {
     use std::sync::Arc;
 
-    use chappie_adapter::{modules::RepositoriesModule, persistence::database::Db};
     use crate::model::ticket::CreateTicket;
-    use crate::helper::LocalDateTime;
+    use chappie_adapter::{modules::RepositoriesModule, persistence::database::Db};
 
     use super::TicketUseCase;
 
@@ -42,7 +41,7 @@ mod test {
             9,
             9,
             0,
-            LocalDateTime("2023-12-31".to_string()),
+            "2023-12-31".to_string(),
             1,
             "01H95VREP370GZ080BBH4EZQ6J".to_string(),
         );

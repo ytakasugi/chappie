@@ -4,6 +4,7 @@ use derive_new::new;
 
 use crate::persistence::database::Db;
 
+pub mod helper;
 pub mod project;
 pub mod ticket;
 pub mod user;

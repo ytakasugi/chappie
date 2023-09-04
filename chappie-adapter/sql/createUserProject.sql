@@ -1,0 +1,5 @@
+INSERT INTO M_USER_PROJECT (
+    USER_ID, PROJECT_ID, ROLE
+) VALUES (
+    $1, $2, $3
+)

@@ -41,7 +41,9 @@ mod test {
             9,
             9,
             0,
+            "2023-09-01".to_string(),
             "2023-12-31".to_string(),
+            Some(9999),
             1,
             "01H95VREP370GZ080BBH4EZQ6J".to_string(),
         );

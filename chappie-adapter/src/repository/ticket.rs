@@ -21,9 +21,13 @@ impl TicketRepository for DatabaseRepository<Ticket> {
             ticket_table.ticket_title,
             ticket_table.description,
             ticket_table.priority,
-            ticket_table.status,
+            ticket_table.status_id,
             ticket_table.progress,
+            ticket_table.start_date,
             ticket_table.due_date,
+            ticket_table.created_at,
+            ticket_table.updated_at,
+            ticket_table.parent_ticket_id,
             ticket_table.project_id,
             ticket_table.assignee_id,
         )
@@ -54,6 +58,7 @@ mod test {
         let db = Db::new().await;
         let repository = DatabaseRepository::new(db);
         let id = Ulid::new();
+        let start_date = NaiveDate::parse_from_str("2023-09-01", "%Y-%m-%d").unwrap();
         let due_date = NaiveDate::parse_from_str("2023-12-31", "%Y-%m-%d").unwrap();
 
         repository
@@ -63,7 +68,9 @@ mod test {
                 9,
                 9,
                 0,
+                start_date,
                 due_date,
+                Some(9999),
                 1,
                 Id::new(id),
             ))

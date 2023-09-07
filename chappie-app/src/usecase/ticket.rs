@@ -37,6 +37,7 @@ mod test {
 
         let source = CreateTicket::new(
             "TestUseCaseTicket".to_string(),
+            1,
             "TestUseCaseTicket".to_string(),
             9,
             9,

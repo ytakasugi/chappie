@@ -1,5 +1,5 @@
 use argon2::password_hash::SaltString;
-use chrono::NaiveDateTime;
+use chrono::{Local, NaiveDateTime};
 use sqlx::FromRow;
 
 use chappie_kernel::model::user::NewUser;
@@ -25,6 +25,8 @@ pub struct NewUserTable {
     pub password: String,
     pub salt: SaltString,
     pub role: String,
+    pub created_at: NaiveDateTime,
+    pub updated_at: Option<NaiveDateTime>,
 }
 
 impl TryFrom<NewUser> for NewUserTable {
@@ -38,6 +40,8 @@ impl TryFrom<NewUser> for NewUserTable {
             password: user.password,
             salt: user.salt,
             role: user.role,
+            created_at: Local::now().naive_local(),
+            updated_at: None,
         })
     }
 }

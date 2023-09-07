@@ -7,6 +7,7 @@ use derive_new::new;
 #[derive(new)]
 pub struct CreateTicket {
     pub ticket_title: String,
+    pub ticket_type_id: i32,
     pub description: String,
     pub priority: i32,
     pub status_id: i32,
@@ -25,6 +26,7 @@ impl TryFrom<CreateTicket> for NewTicket {
     fn try_from(c: CreateTicket) -> Result<Self, Self::Error> {
         Ok(NewTicket::new(
             c.ticket_title,
+            c.ticket_type_id,
             c.description,
             c.priority,
             c.status_id,

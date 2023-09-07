@@ -9,6 +9,7 @@ pub struct Project {
     pub project_id: i32,
     pub project_name: String,
     pub description: String,
+    pub parent_project_id: Option<i32>,
     pub created_at: NaiveDateTime,
     pub updated_at: Option<NaiveDateTime>,
     pub manager_id: Id<Project>,
@@ -19,5 +20,6 @@ pub struct Project {
 pub struct NewProject {
     pub project_name: String,
     pub description: String,
+    pub parent_project_id: Option<i32>,
     pub manager_id: Id<Project>,
 }

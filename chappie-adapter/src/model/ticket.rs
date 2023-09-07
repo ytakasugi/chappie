@@ -1,4 +1,4 @@
-use chrono::{NaiveDate, Local, NaiveDateTime};
+use chrono::{Local, NaiveDate, NaiveDateTime};
 
 use chappie_kernel::model::ticket::NewTicket;
 use sqlx::FromRow;
@@ -7,6 +7,7 @@ use sqlx::FromRow;
 pub struct TicketTable {
     pub ticket_id: i32,
     pub ticket_title: String,
+    pub ticket_type_id: i32,
     pub description: String,
     pub status_id: i32,
     pub progress: i32,
@@ -22,6 +23,7 @@ pub struct TicketTable {
 
 pub struct NewTicketTable {
     pub ticket_title: String,
+    pub ticket_type_id: i32,
     pub description: String,
     pub priority: i32,
     pub status_id: i32,
@@ -42,6 +44,7 @@ impl TryFrom<NewTicket> for NewTicketTable {
     fn try_from(ticket: NewTicket) -> Result<Self, Self::Error> {
         Ok(NewTicketTable {
             ticket_title: ticket.ticket_title,
+            ticket_type_id: ticket.ticket_type_id,
             description: ticket.description,
             priority: ticket.priority,
             status_id: ticket.status_id,

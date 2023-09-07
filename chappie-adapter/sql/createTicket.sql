@@ -1,5 +1,6 @@
 INSERT INTO T_TICKET (
     TICKET_TITLE
+    , TICKET_TYPE_ID
     , DESCRIPTION
     , PRIORITY
     , STATUS_ID
@@ -24,4 +25,5 @@ INSERT INTO T_TICKET (
     , $10
     , $11
     , $12
+    , $13
 )

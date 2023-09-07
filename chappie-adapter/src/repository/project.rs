@@ -22,6 +22,9 @@ impl ProjectRepository for DatabaseRepository<Project> {
             "sql/createProject.sql",
             project_table.project_name,
             project_table.description,
+            project_table.parent_project_id,
+            project_table.created_at,
+            project_table.updated_at,
             project_table.manager_id,
         )
         .execute(&mut *tx)
@@ -55,6 +58,7 @@ mod test {
             .create(NewProject::new(
                 "TestCreateProject".to_string(),
                 "Test project".to_string(),
+                Some(9),
                 Id::new(id),
             ))
             .await

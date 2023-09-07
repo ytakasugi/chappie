@@ -30,6 +30,8 @@ impl UserRepository for DatabaseRepository<User> {
             password_hash,
             user_table.salt.to_string(),
             user_table.role,
+            user_table.created_at,
+            user_table.updated_at,
         )
         .execute(&mut *tx)
         .await?;

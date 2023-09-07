@@ -19,6 +19,7 @@ impl TicketRepository for DatabaseRepository<Ticket> {
             NewTicketTable,
             "sql/createTicket.sql",
             ticket_table.ticket_title,
+            ticket_table.ticket_type_id,
             ticket_table.description,
             ticket_table.priority,
             ticket_table.status_id,
@@ -64,6 +65,7 @@ mod test {
         repository
             .create(NewTicket::new(
                 "TestTicket".to_string(),
+                1,
                 "Test Ticket".to_string(),
                 9,
                 9,

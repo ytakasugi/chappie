@@ -7,6 +7,7 @@ use super::Id;
 #[derive(new, Debug, PartialEq, Eq)]
 pub struct Ticket {
     pub ticket_id: i32,
+    pub ticket_type_id: i32,
     pub ticket_title: String,
     pub description: String,
     pub status_id: i32,
@@ -25,6 +26,7 @@ pub struct Ticket {
 #[derive(new, Debug)]
 pub struct NewTicket {
     pub ticket_title: String,
+    pub ticket_type_id: i32,
     pub description: String,
     pub priority: i32,
     pub status_id: i32,

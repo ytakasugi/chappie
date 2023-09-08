@@ -12,7 +12,7 @@ pub struct JsonCreateTicket {
     pub start_date: String,
     pub due_date: String,
     pub parent_ticket_id: Option<i32>,
-    pub project_id: i32,
+    pub project_id: String,
     // user_id
     pub assignee_id: String,
 }

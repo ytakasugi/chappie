@@ -15,7 +15,7 @@ pub struct CreateTicket {
     pub start_date: String,
     pub due_date: String,
     pub parent_ticket_id: Option<i32>,
-    pub project_id: i32,
+    pub project_id: String,
     // user_id
     pub assignee_id: String,
 }
@@ -34,7 +34,7 @@ impl TryFrom<CreateTicket> for NewTicket {
             convert_str_to_date(c.start_date)?,
             convert_str_to_date(c.due_date)?,
             c.parent_ticket_id,
-            c.project_id,
+            c.project_id.try_into()?,
             c.assignee_id.try_into()?,
         ))
     }

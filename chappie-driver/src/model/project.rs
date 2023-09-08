@@ -5,7 +5,7 @@ use serde::Deserialize;
 pub struct JsonCreateProject {
     pub project_name: String,
     pub description: String,
-    pub parent_project_id: Option<i32>,
+    pub parent_project_id: Option<String>,
     pub manager_id: String,
 }
 

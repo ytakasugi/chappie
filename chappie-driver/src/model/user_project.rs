@@ -4,7 +4,7 @@ use serde::Deserialize;
 #[derive(Deserialize, Debug)]
 pub struct JsonCreateUserProject {
     pub user_id: String,
-    pub project_id: i32,
+    pub project_id: String,
     pub role: String,
 }
 

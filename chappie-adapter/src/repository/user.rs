@@ -6,14 +6,14 @@ use chappie_kernel::model::user::User;
 use chappie_kernel::repository::user::UserRepository;
 
 use super::DatabaseRepository;
-use crate::model::user::NewUserTable;
+use crate::model::user::UserTable;
 
 use super::helper;
 
 #[async_trait]
 impl UserRepository for DatabaseRepository<User> {
     async fn create(&self, source: NewUser) -> anyhow::Result<()> {
-        let user_table: NewUserTable = source.try_into()?;
+        let user_table: UserTable = source.try_into()?;
         // パスワードハッシュ化
         let password_hash = helper::hash(&user_table.password, &user_table.salt).unwrap();
         // コネクションプール
@@ -30,8 +30,10 @@ impl UserRepository for DatabaseRepository<User> {
             password_hash,
             user_table.salt.to_string(),
             user_table.role,
+            user_table.status,
             user_table.created_at,
             user_table.updated_at,
+            user_table.delete_flag,
         )
         .execute(&mut *tx)
         .await?;

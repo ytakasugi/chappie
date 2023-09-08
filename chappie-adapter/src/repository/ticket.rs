@@ -58,7 +58,8 @@ mod test {
     async fn create_ticket() {
         let db = Db::new().await;
         let repository = DatabaseRepository::new(db);
-        let id = Ulid::new();
+        let project_id = Ulid::new();
+        let assignee_id = Ulid::new();
         let start_date = NaiveDate::parse_from_str("2023-09-01", "%Y-%m-%d").unwrap();
         let due_date = NaiveDate::parse_from_str("2023-12-31", "%Y-%m-%d").unwrap();
 
@@ -73,8 +74,8 @@ mod test {
                 start_date,
                 due_date,
                 Some(9999),
-                1,
-                Id::new(id),
+                Id::new(project_id),
+                Id::new(assignee_id),
             ))
             .await
             .unwrap();

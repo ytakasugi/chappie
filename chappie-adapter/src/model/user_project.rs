@@ -1,4 +1,4 @@
-use chrono::NaiveDateTime;
+use chrono::{NaiveDateTime, Local};
 use sqlx::FromRow;
 
 use chappie_kernel::model::user_project::NewUserProject;
@@ -6,26 +6,22 @@ use chappie_kernel::model::user_project::NewUserProject;
 #[derive(FromRow)]
 pub struct UserProjectTable {
     pub user_id: String,
-    pub project_id: i32,
+    pub project_id: String,
     pub role: String,
     pub created_at: NaiveDateTime,
     pub updated_at: Option<NaiveDateTime>,
 }
 
-pub struct NewUserProjectTable {
-    pub user_id: String,
-    pub project_id: i32,
-    pub role: String,
-}
-
-impl TryFrom<NewUserProject> for NewUserProjectTable {
+impl TryFrom<NewUserProject> for UserProjectTable {
     type Error = anyhow::Error;
 
     fn try_from(user_project: NewUserProject) -> Result<Self, Self::Error> {
-        Ok(NewUserProjectTable {
+        Ok(UserProjectTable {
             user_id: user_project.user_id.value.to_string(),
-            project_id: user_project.project_id,
+            project_id: user_project.project_id.value.to_string(),
             role: user_project.role,
+            created_at: Local::now().naive_local(),
+            updated_at: None,
         })
     }
 }

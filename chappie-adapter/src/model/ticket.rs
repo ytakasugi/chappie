@@ -9,6 +9,7 @@ pub struct TicketTable {
     pub ticket_title: String,
     pub ticket_type_id: i32,
     pub description: String,
+    pub priority: i32,
     pub status_id: i32,
     pub progress: i32,
     pub start_date: NaiveDate,
@@ -16,7 +17,7 @@ pub struct TicketTable {
     pub created_at: NaiveDateTime,
     pub updated_at: Option<NaiveDateTime>,
     pub parent_ticket_id: Option<i32>,
-    pub project_id: i32,
+    pub project_id: String,
     // user_id
     pub assignee_id: String,
 }
@@ -33,7 +34,7 @@ pub struct NewTicketTable {
     pub created_at: NaiveDateTime,
     pub updated_at: Option<NaiveDateTime>,
     pub parent_ticket_id: Option<i32>,
-    pub project_id: i32,
+    pub project_id: String,
     // user_id
     pub assignee_id: String,
 }
@@ -54,7 +55,7 @@ impl TryFrom<NewTicket> for NewTicketTable {
             created_at: Local::now().naive_local(),
             updated_at: None,
             parent_ticket_id: ticket.parent_ticket_id,
-            project_id: ticket.project_id,
+            project_id: ticket.project_id.value.to_string(),
             assignee_id: ticket.assignee_id.value.to_string(),
         })
     }

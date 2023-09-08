@@ -39,7 +39,7 @@ mod test {
         let source = CreateProject::new(
             "UseCaseTestProject".to_string(),
             "Usecase Test project".to_string(),
-            Some(9),
+            Some("01H8Y39CDFYSY86PMB5D4C8YNA".to_string()),
             "01H8Y39CDFYSY86PMB5D4C8YNA".to_string(),
         );
 

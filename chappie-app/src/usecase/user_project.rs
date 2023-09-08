@@ -38,7 +38,7 @@ mod test {
 
         let source = CreateUserProject::new(
             "01H9G2743M5CJAY0V2ZY5CQ4ZC".to_string(),
-            99,
+            "01H9G2743M5CJAY0V2ZY5CQ4ZC".to_string(),
             "9".to_string(),
         );
 

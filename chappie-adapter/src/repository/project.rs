@@ -68,4 +68,23 @@ mod test {
             .await
             .unwrap();
     }
+
+    #[tokio::test]
+    async fn test_create_no_parent() {
+        let db = Db::new().await;
+        let repository = DatabaseRepository::new(db);
+        let project_id = Ulid::new();
+        let user_id = Ulid::new();
+
+        repository
+            .create(NewProject::new(
+                Id::new(project_id),
+                "TestCreateProjectNoParent".to_string(),
+                "Test project No Parent".to_string(),
+                None,
+                Id::new(user_id),
+            ))
+            .await
+            .unwrap();
+    }
 }

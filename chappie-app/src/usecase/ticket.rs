@@ -31,7 +31,7 @@ mod test {
     use super::TicketUseCase;
 
     #[tokio::test]
-    async fn create() {
+    async fn test_ticket_usecase_create() {
         let modules = RepositoriesModule::new(Db::new().await);
         let usecase = TicketUseCase::new(Arc::new(modules));
 
@@ -45,6 +45,28 @@ mod test {
             "2023-09-01".to_string(),
             "2023-12-31".to_string(),
             Some(9999),
+            "01H95VREP370GZ080BBH4EZQ6J".to_string(),
+            "01H95VREP370GZ080BBH4EZQ6J".to_string(),
+        );
+
+        usecase.create(source).await.unwrap();
+    }
+
+    #[tokio::test]
+    async fn test_ticket_usecase_create_no_parent() {
+        let modules = RepositoriesModule::new(Db::new().await);
+        let usecase = TicketUseCase::new(Arc::new(modules));
+
+        let source = CreateTicket::new(
+            "TestUseCaseTicket".to_string(),
+            1,
+            "TestUseCaseTicket".to_string(),
+            9,
+            9,
+            0,
+            "2023-09-01".to_string(),
+            "2023-12-31".to_string(),
+            None,
             "01H95VREP370GZ080BBH4EZQ6J".to_string(),
             "01H95VREP370GZ080BBH4EZQ6J".to_string(),
         );

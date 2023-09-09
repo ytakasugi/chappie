@@ -32,7 +32,7 @@ mod test {
     use super::UserProjectUseCase;
 
     #[tokio::test]
-    async fn create() {
+    async fn test_user_project_usecase_create() {
         let modules = RepositoriesModule::new(Db::new().await);
         let usecase = UserProjectUseCase::new(Arc::new(modules));
 

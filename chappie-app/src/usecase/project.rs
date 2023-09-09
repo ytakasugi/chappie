@@ -32,7 +32,7 @@ mod test {
     use super::ProjectUseCase;
 
     #[tokio::test]
-    async fn create() {
+    async fn est_project_usecase_create() {
         let modules = RepositoriesModule::new(Db::new().await);
         let usecase = ProjectUseCase::new(Arc::new(modules));
 
@@ -40,6 +40,21 @@ mod test {
             "UseCaseTestProject".to_string(),
             "Usecase Test project".to_string(),
             Some("01H8Y39CDFYSY86PMB5D4C8YNA".to_string()),
+            "01H8Y39CDFYSY86PMB5D4C8YNA".to_string(),
+        );
+
+        usecase.create(source).await.unwrap();
+    }
+
+    #[tokio::test]
+    async fn test_project_usecase_create_noparent() {
+        let modules = RepositoriesModule::new(Db::new().await);
+        let usecase = ProjectUseCase::new(Arc::new(modules));
+
+        let source = CreateProject::new(
+            "UseCaseTestProject".to_string(),
+            "Usecase Test project".to_string(),
+            None,
             "01H8Y39CDFYSY86PMB5D4C8YNA".to_string(),
         );
 

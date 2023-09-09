@@ -80,4 +80,31 @@ mod test {
             .await
             .unwrap();
     }
+
+    #[tokio::test]
+    async fn create_ticket_noparent() {
+        let db = Db::new().await;
+        let repository = DatabaseRepository::new(db);
+        let project_id = Ulid::new();
+        let assignee_id = Ulid::new();
+        let start_date = NaiveDate::parse_from_str("2023-09-01", "%Y-%m-%d").unwrap();
+        let due_date = NaiveDate::parse_from_str("2023-12-31", "%Y-%m-%d").unwrap();
+
+        repository
+            .create(NewTicket::new(
+                "TestTicketNoParent".to_string(),
+                1,
+                "Test Ticket No Parent".to_string(),
+                9,
+                9,
+                0,
+                start_date,
+                due_date,
+                None,
+                Id::new(project_id),
+                Id::new(assignee_id),
+            ))
+            .await
+            .unwrap();
+    }
 }

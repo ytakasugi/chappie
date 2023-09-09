@@ -46,7 +46,7 @@ mod test {
     use crate::persistence::database::Db;
 
     #[tokio::test]
-    async fn create_ticket() {
+    async fn test_create() {
         let db = Db::new().await;
         let repository = DatabaseRepository::new(db);
         let user_id = Ulid::new();

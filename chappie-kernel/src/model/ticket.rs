@@ -19,7 +19,7 @@ pub struct Ticket {
     pub parent_ticket_id: Option<i32>,
     pub project_id: Id<Project>,
     // user_id
-    pub assignee_id: Id<Ticket>,
+    pub assignee_id: Id<User>,
 }
 
 #[allow(clippy::too_many_arguments)]

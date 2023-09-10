@@ -16,7 +16,8 @@ pub struct Ticket {
     pub start_date: NaiveDate,
     pub due_date: NaiveDate,
     pub created_at: NaiveDateTime,
-    pub updated_at: NaiveDateTime,
+    pub updated_at: Option<NaiveDateTime>,
+    pub parent_ticket_id: Option<i32>,
     pub project_id: Id<Project>,
     // user_id
     pub assignee_id: Id<User>,
@@ -33,6 +34,7 @@ pub struct NewTicket {
     pub progress: i32,
     pub start_date: NaiveDate,
     pub due_date: NaiveDate,
+    pub parent_ticket_id: Option<i32>,
     pub project_id: Id<Project>,
     // user_id
     pub assignee_id: Id<User>,

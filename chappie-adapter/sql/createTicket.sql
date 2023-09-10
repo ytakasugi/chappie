@@ -9,6 +9,7 @@ INSERT INTO T_TICKET (
     , DUE_DATE
     , CREATED_AT
     , UPDATED_AT
+    , PARENT_TICKET_ID
     , PROJECT_ID
     , ASSIGNEE_ID
 ) VALUES (
@@ -24,4 +25,5 @@ INSERT INTO T_TICKET (
     , $10
     , $11
     , $12
+    , $13
 )

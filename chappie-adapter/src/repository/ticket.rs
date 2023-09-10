@@ -46,15 +46,11 @@ impl TicketRepository for DatabaseRepository<Ticket> {
     async fn find(&self, id: i32) -> anyhow::Result<Option<Ticket>> {
         let pool = self.pool.0.clone();
 
-        let ticket_table = sqlx::query_file_as!(
-            TicketTable,
-            "sql/findTicket.sql",
-            id,
-        )
-        .fetch_one(& *pool)
-        .await
-        .ok();
-        
+        let ticket_table = sqlx::query_file_as!(TicketTable, "sql/findTicket.sql", id,)
+            .fetch_one(&*pool)
+            .await
+            .ok();
+
         match ticket_table {
             Some(ticket) => Ok(Some(ticket.try_into()?)),
             None => Ok(None),
@@ -132,10 +128,7 @@ mod test {
         let db = Db::new().await;
         let repository = DatabaseRepository::new(db);
 
-        let ticket = repository
-            .find(1)
-            .await
-            .unwrap();
+        let ticket = repository.find(1).await.unwrap();
 
         //assert_eq!(ticket.unwrap().ticket_id, 1);
         assert_eq!(ticket.unwrap().parent_ticket_id, None);

@@ -1,4 +1,4 @@
-use chrono::{NaiveDateTime, Local};
+use chrono::{Local, NaiveDateTime};
 use sqlx::FromRow;
 
 use chappie_kernel::model::project::NewProject;

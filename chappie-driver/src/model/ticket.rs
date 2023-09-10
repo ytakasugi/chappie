@@ -11,7 +11,6 @@ pub struct JsonCreateTicket {
     pub progress: i32,
     pub start_date: String,
     pub due_date: String,
-    pub parent_ticket_id: Option<i32>,
     pub project_id: String,
     // user_id
     pub assignee_id: String,
@@ -28,7 +27,6 @@ impl From<JsonCreateTicket> for CreateTicket {
             progress: t.progress,
             start_date: t.start_date,
             due_date: t.due_date,
-            parent_ticket_id: t.parent_ticket_id,
             project_id: t.project_id,
             assignee_id: t.assignee_id,
         }

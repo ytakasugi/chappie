@@ -1,6 +1,6 @@
 use chrono::{Local, NaiveDate, NaiveDateTime};
 
-use chappie_kernel::model::ticket::NewTicket;
+use chappie_kernel::model::ticket::{NewTicket, Ticket};
 use sqlx::FromRow;
 
 #[derive(FromRow)]
@@ -15,11 +15,32 @@ pub struct TicketTable {
     pub start_date: NaiveDate,
     pub due_date: NaiveDate,
     pub created_at: NaiveDateTime,
-    pub updated_at: Option<NaiveDateTime>,
-    pub parent_ticket_id: Option<i32>,
+    pub updated_at: NaiveDateTime,
     pub project_id: String,
     // user_id
     pub assignee_id: String,
+}
+
+impl TryFrom<TicketTable> for Ticket {
+    type Error = anyhow::Error;
+
+    fn try_from(ticket: TicketTable) -> Result<Self, Self::Error> {
+        Ok(Ticket::new(
+            ticket.ticket_id,
+            ticket.ticket_title,
+            ticket.ticket_type_id,
+            ticket.description,
+            ticket.priority,
+            ticket.status_id,
+            ticket.progress,
+            ticket.start_date,
+            ticket.due_date,
+            ticket.created_at,
+            ticket.updated_at,
+            ticket.project_id.try_into()?,
+            ticket.assignee_id.try_into()?,
+        ))
+    }
 }
 
 pub struct NewTicketTable {
@@ -32,8 +53,7 @@ pub struct NewTicketTable {
     pub start_date: NaiveDate,
     pub due_date: NaiveDate,
     pub created_at: NaiveDateTime,
-    pub updated_at: Option<NaiveDateTime>,
-    pub parent_ticket_id: Option<i32>,
+    pub updated_at: NaiveDateTime,
     pub project_id: String,
     // user_id
     pub assignee_id: String,
@@ -53,8 +73,7 @@ impl TryFrom<NewTicket> for NewTicketTable {
             start_date: ticket.start_date,
             due_date: ticket.due_date,
             created_at: Local::now().naive_local(),
-            updated_at: None,
-            parent_ticket_id: ticket.parent_ticket_id,
+            updated_at: Local::now().naive_local(),
             project_id: ticket.project_id.value.to_string(),
             assignee_id: ticket.assignee_id.value.to_string(),
         })

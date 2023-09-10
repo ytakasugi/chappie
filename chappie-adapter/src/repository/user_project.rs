@@ -53,7 +53,11 @@ mod test {
         let project_id = Ulid::new();
 
         repository
-            .create(NewUserProject::new(Id::new(user_id), Id::new(project_id), "9".to_string()))
+            .create(NewUserProject::new(
+                Id::new(user_id),
+                Id::new(project_id),
+                "9".to_string(),
+            ))
             .await
             .unwrap();
     }

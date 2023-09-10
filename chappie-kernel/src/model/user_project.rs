@@ -1,7 +1,7 @@
 use chrono::NaiveDateTime;
 use derive_new::new;
 
-use super::{Id, project::Project, user::User};
+use super::{project::Project, user::User, Id};
 
 #[derive(new, Debug, PartialEq, Eq)]
 pub struct UserProject {

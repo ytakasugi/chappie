@@ -7,6 +7,7 @@ use chappie_kernel::repository::ticket::TicketRepository;
 
 use super::DatabaseRepository;
 use crate::model::ticket::NewTicketTable;
+use crate::model::ticket::TicketTable;
 
 #[async_trait]
 impl TicketRepository for DatabaseRepository<Ticket> {
@@ -28,7 +29,6 @@ impl TicketRepository for DatabaseRepository<Ticket> {
             ticket_table.due_date,
             ticket_table.created_at,
             ticket_table.updated_at,
-            ticket_table.parent_ticket_id,
             ticket_table.project_id,
             ticket_table.assignee_id,
         )
@@ -40,6 +40,24 @@ impl TicketRepository for DatabaseRepository<Ticket> {
             .unwrap_or_else(|_| panic!("Commit failed"));
 
         Ok(())
+    }
+
+    async fn find(&self, id: i32) -> anyhow::Result<Option<Ticket>> {
+        let pool = self.pool.0.clone();
+
+        let ticket_table = sqlx::query_file_as!(
+            TicketTable,
+            "sql/findTicket.sql",
+            id,
+        )
+        .fetch_one(& *pool)
+        .await
+        .ok();
+        
+        match ticket_table {
+            Some(ticket) => Ok(Some(ticket.try_into()?)),
+            None => Ok(None),
+        }
     }
 }
 
@@ -73,34 +91,6 @@ mod test {
                 0,
                 start_date,
                 due_date,
-                Some(9999),
-                Id::new(project_id),
-                Id::new(assignee_id),
-            ))
-            .await
-            .unwrap();
-    }
-
-    #[tokio::test]
-    async fn create_ticket_noparent() {
-        let db = Db::new().await;
-        let repository = DatabaseRepository::new(db);
-        let project_id = Ulid::new();
-        let assignee_id = Ulid::new();
-        let start_date = NaiveDate::parse_from_str("2023-09-01", "%Y-%m-%d").unwrap();
-        let due_date = NaiveDate::parse_from_str("2023-12-31", "%Y-%m-%d").unwrap();
-
-        repository
-            .create(NewTicket::new(
-                "TestTicketNoParent".to_string(),
-                1,
-                "Test Ticket No Parent".to_string(),
-                9,
-                9,
-                0,
-                start_date,
-                due_date,
-                None,
                 Id::new(project_id),
                 Id::new(assignee_id),
             ))

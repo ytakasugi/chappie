@@ -44,7 +44,6 @@ mod test {
             0,
             "2023-09-01".to_string(),
             "2023-12-31".to_string(),
-            Some(9999),
             "01H95VREP370GZ080BBH4EZQ6J".to_string(),
             "01H95VREP370GZ080BBH4EZQ6J".to_string(),
         );
@@ -66,7 +65,6 @@ mod test {
             0,
             "2023-09-01".to_string(),
             "2023-12-31".to_string(),
-            None,
             "01H95VREP370GZ080BBH4EZQ6J".to_string(),
             "01H95VREP370GZ080BBH4EZQ6J".to_string(),
         );

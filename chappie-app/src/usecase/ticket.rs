@@ -5,7 +5,7 @@ use derive_new::new;
 use chappie_adapter::modules::RepositoriesModuleExt;
 use chappie_kernel::repository::ticket::TicketRepository;
 
-use crate::model::ticket::CreateTicket;
+use crate::model::ticket::{CreateTicket, TicketView};
 
 #[derive(new)]
 pub struct TicketUseCase<R: RepositoriesModuleExt> {
@@ -18,6 +18,15 @@ impl<R: RepositoriesModuleExt> TicketUseCase<R> {
             .ticket_repository()
             .create(source.try_into()?)
             .await
+    }
+
+    pub async fn find(&self, id: i32) -> anyhow::Result<Option<TicketView>> {
+        let ticket = self.repositories.ticket_repository().find(id).await?;
+
+        match ticket {
+            Some(ticket) => Ok(Some(TicketView::new(ticket))),
+            None => Ok(None),
+        }
     }
 }
 
@@ -72,5 +81,13 @@ mod test {
         );
 
         usecase.create(source).await.unwrap();
+    }
+
+    #[tokio::test]
+    async fn test_ticket_usecase_find() {
+        let modules = RepositoriesModule::new(Db::new().await);
+        let usecase = TicketUseCase::new(Arc::new(modules));
+
+        usecase.find(1).await.unwrap();
     }
 }

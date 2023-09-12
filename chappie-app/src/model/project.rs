@@ -5,6 +5,7 @@ use super::helper::convert_string_to_id;
 
 #[derive(new)]
 pub struct CreateProject {
+    pub project_title: String,
     pub project_name: String,
     pub description: String,
     pub parent_project_id: Option<String>,
@@ -19,6 +20,7 @@ impl TryFrom<CreateProject> for NewProject {
 
         Ok(NewProject::new(
             project_id,
+            c.project_title,
             c.project_name,
             c.description,
             convert_string_to_id(c.parent_project_id),

@@ -21,6 +21,7 @@ impl ProjectRepository for DatabaseRepository<Project> {
             ProjectTabl,
             "sql/createProject.sql",
             project_table.project_id,
+            project_table.project_title,
             project_table.project_name,
             project_table.description,
             project_table.parent_project_id,
@@ -61,6 +62,7 @@ mod test {
             .create(NewProject::new(
                 Id::new(project_id),
                 "TestCreateProject".to_string(),
+                "test_create_project".to_string(),
                 "Test project".to_string(),
                 Some(Id::new(parent_project_id)),
                 Id::new(user_id),
@@ -80,6 +82,7 @@ mod test {
             .create(NewProject::new(
                 Id::new(project_id),
                 "TestCreateProjectNoParent".to_string(),
+                "test_create_project_no_parent".to_string(),
                 "Test project No Parent".to_string(),
                 None,
                 Id::new(user_id),

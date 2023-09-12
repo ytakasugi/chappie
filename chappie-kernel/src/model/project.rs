@@ -3,9 +3,11 @@ use derive_new::new;
 
 use super::{user::User, Id};
 
+#[allow(clippy::too_many_arguments)]
 #[derive(new, Debug, PartialEq, Eq)]
 pub struct Project {
     pub project_id: Id<Project>,
+    pub project_title: String,
     pub project_name: String,
     pub description: String,
     pub parent_project_id: Option<Id<Project>>,
@@ -17,6 +19,7 @@ pub struct Project {
 #[derive(new, Debug)]
 pub struct NewProject {
     pub project_id: Id<Project>,
+    pub project_title: String,
     pub project_name: String,
     pub description: String,
     pub parent_project_id: Option<Id<Project>>,

@@ -3,7 +3,7 @@
 ## Execute
 
 ```text
-curl -X POST -H "Content-Type: application/json" -d @./json/${JSON_FILE_NAME} ${URL}
+curl -X POST -H "Content-Type: application/json" -d @./json/${JSON_FILE_NAME} http://localhost:8080/${ROUTE}
 ```
 
 ## SQL

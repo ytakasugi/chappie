@@ -37,7 +37,8 @@ mod test {
         let usecase = ProjectUseCase::new(Arc::new(modules));
 
         let source = CreateProject::new(
-            "UseCaseTestProject".to_string(),
+            "UsecaseTestProject".to_string(),
+            "usecase_test_project".to_string(),
             "Usecase Test project".to_string(),
             Some("01H8Y39CDFYSY86PMB5D4C8YNA".to_string()),
             "01H8Y39CDFYSY86PMB5D4C8YNA".to_string(),
@@ -52,7 +53,8 @@ mod test {
         let usecase = ProjectUseCase::new(Arc::new(modules));
 
         let source = CreateProject::new(
-            "UseCaseTestProject".to_string(),
+            "UsecaseTestProject".to_string(),
+            "usecase_test_project".to_string(),
             "Usecase Test project".to_string(),
             None,
             "01H8Y39CDFYSY86PMB5D4C8YNA".to_string(),

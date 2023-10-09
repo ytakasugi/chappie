@@ -6,5 +6,8 @@ pub fn convert_str_to_date(str_date: String) -> anyhow::Result<NaiveDate> {
 }
 
 pub fn convert_string_to_id<T>(id: Option<String>) -> Option<Id<T>> {
-    id.map(|id| id.try_into().unwrap())
+    id.map(|id| {
+        id.try_into()
+            .unwrap_or_else(|_| panic!("String to ID conversion failed."))
+    })
 }

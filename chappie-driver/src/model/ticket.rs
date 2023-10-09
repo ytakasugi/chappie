@@ -37,6 +37,17 @@ impl From<TicketView> for JsonTicketView {
     }
 }
 
+#[derive(Serialize)]
+pub struct JsonTicketListView {
+    pub list: Vec<JsonTicketView>,
+}
+
+impl JsonTicketListView {
+    pub fn new(list: Vec<JsonTicketView>) -> Self {
+        Self { list }
+    }
+}
+
 #[derive(Deserialize, Debug)]
 pub struct JsonCreateTicket {
     pub ticket_title: String,

@@ -19,6 +19,7 @@ pub async fn startup(modules: Arc<Modules>) {
     let project_router = Router::new().route("/", post(porject::create));
     let ticket_router = Router::new()
         .route("/", post(ticket::create))
+        .route("/", get(ticket::list))
         .route("/:id", get(ticket::find));
     let user_project_router = Router::new().route("/", post(user_project::create));
 

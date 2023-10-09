@@ -38,6 +38,25 @@ impl TicketView {
     }
 }
 
+impl From<Ticket> for TicketView {
+    fn from(ticket: Ticket) -> Self {
+        Self {
+            ticket_id: ticket.ticket_id,
+            ticket_title: ticket.ticket_title,
+            ticket_type_id: ticket.ticket_type_id,
+            description: ticket.description,
+            priority: ticket.priority,
+            status_id: ticket.status_id,
+            progress: ticket.progress,
+            start_date: ticket.start_date.to_string(),
+            due_date: ticket.due_date.to_string(),
+            parent_ticket_id: ticket.parent_ticket_id,
+            project_id: ticket.project_id.value.to_string(),
+            assignee_id: ticket.assignee_id.value.to_string(),
+        }
+    }
+}
+
 #[allow(clippy::too_many_arguments)]
 #[derive(new)]
 pub struct CreateTicket {

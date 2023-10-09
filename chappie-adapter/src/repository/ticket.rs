@@ -56,6 +56,23 @@ impl TicketRepository for DatabaseRepository<Ticket> {
             None => Ok(None),
         }
     }
+
+    async fn list(&self) -> anyhow::Result<Option<Vec<Ticket>>> {
+        let pool = self.pool.0.clone();
+
+        let ticket_table = sqlx::query_file_as!(TicketTable, "sql/getTicketList.sql")
+            .fetch_all(&*pool)
+            .await
+            .ok();
+
+        match ticket_table {
+            Some(list) => {
+                let ticket_list = list.into_iter().flat_map(|t| t.try_into()).collect();
+                Ok(Some(ticket_list))
+            }
+            None => Ok(None),
+        }
+    }
 }
 
 #[cfg(test)]
@@ -130,7 +147,16 @@ mod test {
 
         let ticket = repository.find(1).await.unwrap();
 
-        //assert_eq!(ticket.unwrap().ticket_id, 1);
-        assert_eq!(ticket.unwrap().parent_ticket_id, None);
+        assert_eq!(ticket.unwrap().ticket_id, 1);
+    }
+
+    #[tokio::test]
+    async fn test_ticket_list() {
+        let db = Db::new().await;
+        let repository = DatabaseRepository::new(db);
+
+        let ticket = repository.list().await.unwrap();
+
+        assert!(ticket.unwrap().len() > 1);
     }
 }

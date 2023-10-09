@@ -1,5 +1,6 @@
 use std::sync::Arc;
 
+use anyhow::Ok;
 use derive_new::new;
 
 use chappie_adapter::modules::RepositoriesModuleExt;
@@ -25,6 +26,18 @@ impl<R: RepositoriesModuleExt> TicketUseCase<R> {
 
         match ticket {
             Some(ticket) => Ok(Some(TicketView::new(ticket))),
+            None => Ok(None),
+        }
+    }
+
+    pub async fn list(&self) -> anyhow::Result<Option<Vec<TicketView>>> {
+        let ticket = self.repositories.ticket_repository().list().await?;
+
+        match ticket {
+            Some(list) => {
+                let ticket_list = list.into_iter().map(|view| view.into()).collect();
+                Ok(Some(ticket_list))
+            }
             None => Ok(None),
         }
     }
@@ -89,5 +102,13 @@ mod test {
         let usecase = TicketUseCase::new(Arc::new(modules));
 
         usecase.find(1).await.unwrap();
+    }
+
+    #[tokio::test]
+    async fn test_ticket_usecase_list() {
+        let modules = RepositoriesModule::new(Db::new().await);
+        let usecase = TicketUseCase::new(Arc::new(modules));
+
+        usecase.list().await.unwrap();
     }
 }

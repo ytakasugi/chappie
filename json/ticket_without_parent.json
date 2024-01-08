@@ -1,0 +1,13 @@
+{
+    "ticket_title": "create test plan",
+    "ticket_type_id": 1,
+    "description": "create test plan next version",
+    "priority": 9,
+    "status_id": 9,
+    "progress": 0,
+    "start_date": "2023-09-01",
+    "due_date": "2023-12-31",
+    "parent_ticket_id": null,
+    "project_id": "01H93DKA54R7HB80098QRQ7WW0",
+    "assignee_id": "01H95VREP370GZ080BBH4EZQ6J"
+}

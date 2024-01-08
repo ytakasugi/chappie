@@ -6,6 +6,7 @@ use ulid::Ulid;
 pub mod project;
 pub mod ticket;
 pub mod user;
+pub mod user_project;
 
 #[derive(new, Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Id<T> {

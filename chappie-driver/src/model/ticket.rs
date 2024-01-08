@@ -1,15 +1,65 @@
-use chappie_app::model::ticket::CreateTicket;
-use serde::Deserialize;
+use chappie_app::model::ticket::{CreateTicket, TicketView};
+use serde::{Deserialize, Serialize};
+
+#[derive(Serialize)]
+pub struct JsonTicketView {
+    pub ticket_id: i32,
+    pub ticket_title: String,
+    pub ticket_type_id: i32,
+    pub description: String,
+    pub priority: i32,
+    pub status_id: i32,
+    pub progress: i32,
+    pub start_date: String,
+    pub due_date: String,
+    pub parent_ticket_id: Option<i32>,
+    pub project_id: String,
+    // user_id
+    pub assignee_id: String,
+}
+
+impl From<TicketView> for JsonTicketView {
+    fn from(t: TicketView) -> Self {
+        JsonTicketView {
+            ticket_id: t.ticket_id,
+            ticket_title: t.ticket_title,
+            ticket_type_id: t.ticket_type_id,
+            description: t.description,
+            priority: t.priority,
+            status_id: t.status_id,
+            progress: t.progress,
+            start_date: t.start_date.to_string(),
+            due_date: t.due_date.to_string(),
+            parent_ticket_id: t.parent_ticket_id,
+            project_id: t.project_id,
+            assignee_id: t.assignee_id,
+        }
+    }
+}
+
+#[derive(Serialize)]
+pub struct JsonTicketListView {
+    pub list: Vec<JsonTicketView>,
+}
+
+impl JsonTicketListView {
+    pub fn new(list: Vec<JsonTicketView>) -> Self {
+        Self { list }
+    }
+}
 
 #[derive(Deserialize, Debug)]
 pub struct JsonCreateTicket {
     pub ticket_title: String,
+    pub ticket_type_id: i32,
     pub description: String,
     pub priority: i32,
-    pub status: i32,
+    pub status_id: i32,
     pub progress: i32,
+    pub start_date: String,
     pub due_date: String,
-    pub project_id: i32,
+    pub parent_ticket_id: Option<i32>,
+    pub project_id: String,
     // user_id
     pub assignee_id: String,
 }
@@ -18,11 +68,14 @@ impl From<JsonCreateTicket> for CreateTicket {
     fn from(t: JsonCreateTicket) -> Self {
         CreateTicket {
             ticket_title: t.ticket_title,
+            ticket_type_id: t.ticket_type_id,
             description: t.description,
             priority: t.priority,
-            status: t.status,
+            status_id: t.status_id,
             progress: t.progress,
+            start_date: t.start_date,
             due_date: t.due_date,
+            parent_ticket_id: t.parent_ticket_id,
             project_id: t.project_id,
             assignee_id: t.assignee_id,
         }

@@ -1,5 +1,12 @@
-use crate::{module::Modules, routes::{user, porject, ticket}};
-use axum::{extract::Extension, routing::post, Router};
+use crate::{
+    module::Modules,
+    routes::{porject, ticket, user, user_project},
+};
+use axum::{
+    extract::Extension,
+    routing::{get, post},
+    Router,
+};
 
 use std::{net::SocketAddr, sync::Arc};
 
@@ -10,13 +17,17 @@ pub async fn startup(modules: Arc<Modules>) {
 
     let user_router = Router::new().route("/", post(user::create));
     let project_router = Router::new().route("/", post(porject::create));
-    let ticket_router = Router::new().route("/", post(ticket::create));
-
+    let ticket_router = Router::new()
+        .route("/", post(ticket::create))
+        .route("/", get(ticket::list))
+        .route("/:id", get(ticket::find));
+    let user_project_router = Router::new().route("/", post(user_project::create));
 
     let app = Router::new()
         .nest("/users", user_router)
         .nest("/projects", project_router)
         .nest("/tickets", ticket_router)
+        .nest("/user_projects", user_project_router)
         .layer(Extension(modules));
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 8080));

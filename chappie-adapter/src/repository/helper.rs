@@ -32,6 +32,6 @@ pub fn verify(password: &str, hash: &str) -> Result<bool, password_hash::Error> 
         Version::V0x13,
         Params::new(15000, 2, 1, None).unwrap(),
     );
-
+    
     Ok(argon2.verify_password(password, &hash).is_ok())
 }

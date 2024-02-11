@@ -23,17 +23,15 @@ pub fn hash(password: &str, salt: &SaltString) -> Result<String, password_hash::
     Ok(password_hash)
 }
 
-pub fn verify(password: &str, password_hash: String) -> Result<(), password_hash::Error> {
+pub fn verify(password: &str, hash: &str) -> Result<bool, password_hash::Error> {
+    let password = password.as_bytes();
+    let hash = PasswordHash::new(hash)?;
+
     let argon2 = Argon2::new(
         Algorithm::Argon2id,
         Version::V0x13,
         Params::new(15000, 2, 1, None).unwrap(),
     );
 
-    let parsed_hash = PasswordHash::new(&password_hash)?;
-    let _veryfy = argon2
-        .verify_password(password.as_bytes(), &parsed_hash)
-        .is_ok();
-
-    Ok(())
+    Ok(argon2.verify_password(password, &hash).is_ok())
 }

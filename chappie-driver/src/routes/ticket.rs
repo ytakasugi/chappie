@@ -9,7 +9,7 @@ use axum::{
 use tracing::error;
 
 use crate::{
-    model::ticket::{JsonCreateTicket, JsonTicketView, JsonTicketListView},
+    model::ticket::{JsonCreateTicket, JsonTicketListView, JsonTicketView},
     module::{Modules, ModulesExt},
 };
 

@@ -35,3 +35,27 @@ pub fn verify(password: &str, hash: &str) -> Result<bool, password_hash::Error> 
     
     Ok(argon2.verify_password(password, &hash).is_ok())
 }
+
+#[cfg(test)]
+mod test {
+    use super::{generate_salt, hash, verify};
+
+    #[test]
+    fn test_password_hash() {
+        let password = "password123";
+        let salt = generate_salt();
+        let password_hash = hash(password, &salt);
+
+        assert!(password_hash.is_ok());
+    }
+
+    #[test]
+    fn test_password_verify() {
+        let password = "password123";
+        let salt = generate_salt();
+        let password_hash = hash(password, &salt).unwrap();
+
+        let veryfied_password = verify(password, &password_hash);
+        assert_eq!(veryfied_password.unwrap(), true);
+    }
+}

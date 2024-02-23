@@ -8,16 +8,16 @@ use chappie_kernel::repository::project::ProjectRepository;
 use super::DatabaseRepository;
 use crate::model::project::ProjectTable;
 
+use crate::persistence::database::execute;
+
 #[async_trait]
 impl ProjectRepository for DatabaseRepository<Project> {
     async fn create(&self, source: NewProject) -> anyhow::Result<()> {
         let project_table: ProjectTable = source.try_into()?;
         // コネクションプール
         let pool = self.pool.0.clone();
-        // トランザクションを開始する
-        let mut tx = pool.begin().await.unwrap();
 
-        let _ = sqlx::query_file_as!(
+        let query = sqlx::query_file_as!(
             ProjectTabl,
             "sql/createProject.sql",
             project_table.project_id,
@@ -28,15 +28,9 @@ impl ProjectRepository for DatabaseRepository<Project> {
             project_table.created_at,
             project_table.updated_at,
             project_table.manager_id,
-        )
-        .execute(&mut *tx)
-        .await;
+        );
 
-        tx.commit()
-            .await
-            .unwrap_or_else(|_| panic!("Commit failed"));
-
-        Ok(())
+        execute(pool, query).await
     }
 }
 

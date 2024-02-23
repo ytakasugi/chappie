@@ -8,14 +8,15 @@ use chappie_kernel::repository::user_project::UserProjectRepository;
 use super::DatabaseRepository;
 use crate::model::user_project::UserProjectTable;
 
+use crate::persistence::database::execute;
+
 #[async_trait]
 impl UserProjectRepository for DatabaseRepository<UserProject> {
     async fn create(&self, source: NewUserProject) -> anyhow::Result<()> {
         let user_project_table: UserProjectTable = source.try_into()?;
         let pool = self.pool.0.clone();
-        let mut tx = pool.begin().await.unwrap();
 
-        let _ = sqlx::query_file_as!(
+        let query = sqlx::query_file_as!(
             UserProjectTable,
             "sql/createUserProject.sql",
             user_project_table.user_id,
@@ -23,15 +24,9 @@ impl UserProjectRepository for DatabaseRepository<UserProject> {
             user_project_table.role,
             user_project_table.created_at,
             user_project_table.updated_at,
-        )
-        .execute(&mut *tx)
-        .await;
+        );
 
-        tx.commit()
-            .await
-            .unwrap_or_else(|_| panic!("Commit failed"));
-
-        Ok(())
+        execute(pool, query).await
     }
 }
 

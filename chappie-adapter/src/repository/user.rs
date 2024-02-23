@@ -9,6 +9,7 @@ use super::DatabaseRepository;
 use crate::model::user::UserTable;
 
 use super::helper;
+use crate::persistence::database::execute;
 
 #[async_trait]
 impl UserRepository for DatabaseRepository<User> {
@@ -18,10 +19,8 @@ impl UserRepository for DatabaseRepository<User> {
         let password_hash = helper::hash(&user_table.password, &user_table.salt).unwrap();
         // コネクションプール
         let pool = self.pool.0.clone();
-        // トランザクションを開始する
-        let mut tx = pool.begin().await.unwrap();
 
-        let _ = sqlx::query_file_as!(
+        let query = sqlx::query_file_as!(
             UserTable,
             "sql/createUser.sql",
             user_table.user_id,
@@ -34,16 +33,9 @@ impl UserRepository for DatabaseRepository<User> {
             user_table.created_at,
             user_table.updated_at,
             user_table.delete_flag,
-        )
-        .execute(&mut *tx)
-        .await?;
+        );
 
-        // トランザクションをコミットする
-        tx.commit()
-            .await
-            .unwrap_or_else(|_| panic!("Commit failed."));
-
-        Ok(())
+        execute(pool, query).await
     }
 }
 

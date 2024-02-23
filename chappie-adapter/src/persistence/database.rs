@@ -1,7 +1,10 @@
 use dotenv::dotenv;
 use std::sync::Arc;
 
+use sqlx::query;
 use sqlx::PgPool;
+use sqlx::Pool;
+use sqlx::Postgres;
 
 #[derive(Clone)]
 pub struct Db(pub(crate) Arc<PgPool>);
@@ -25,4 +28,16 @@ impl Db {
 
         Db(Arc::new(pool))
     }
+}
+
+pub async fn execute(
+    pool: Arc<Pool<Postgres>>,
+    query: query::Query<'_, sqlx::Postgres, sqlx::postgres::PgArguments>,
+) -> Result<(), anyhow::Error> {
+    let mut tx = pool.begin().await.unwrap();
+    query.execute(&mut *tx).await?;
+    tx.commit()
+        .await
+        .unwrap_or_else(|_| panic!("Commit failed"));
+    Ok(())
 }

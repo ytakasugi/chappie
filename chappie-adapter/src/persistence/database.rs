@@ -35,7 +35,7 @@ pub async fn execute(
     query: Query<'_, sqlx::Postgres, sqlx::postgres::PgArguments>,
 ) -> anyhow::Result<(), anyhow::Error> {
     let mut tx = pool.begin().await?;
-    match query.execute(&mut* tx).await {
+    match query.execute(&mut *tx).await {
         Ok(_) => {
             tx.commit().await?;
             Ok(())

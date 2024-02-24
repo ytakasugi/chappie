@@ -16,7 +16,8 @@ impl UserRepository for DatabaseRepository<User> {
     async fn create(&self, source: NewUser) -> anyhow::Result<()> {
         let user_table: UserTable = source.try_into()?;
         // パスワードハッシュ化
-        let password_hash = helper::hash(&user_table.password, &user_table.salt).unwrap();
+        let password_hash = helper::hash(&user_table.password, &user_table.salt)
+            .map_err(|e| anyhow::anyhow!("Hashing error: {:?}", e))?;
         // コネクションプール
         let pool = self.pool.0.clone();
 

@@ -1,7 +1,7 @@
 use dotenv::dotenv;
 use std::sync::Arc;
 
-use sqlx::query;
+use sqlx::query::Query;
 use sqlx::PgPool;
 use sqlx::Pool;
 use sqlx::Postgres;
@@ -32,12 +32,17 @@ impl Db {
 
 pub async fn execute(
     pool: Arc<Pool<Postgres>>,
-    query: query::Query<'_, sqlx::Postgres, sqlx::postgres::PgArguments>,
-) -> Result<(), anyhow::Error> {
-    let mut tx = pool.begin().await.unwrap();
-    query.execute(&mut *tx).await?;
-    tx.commit()
-        .await
-        .unwrap_or_else(|_| panic!("Commit failed"));
-    Ok(())
+    query: Query<'_, sqlx::Postgres, sqlx::postgres::PgArguments>,
+) -> anyhow::Result<(), anyhow::Error> {
+    let mut tx = pool.begin().await?;
+    match query.execute(&mut* tx).await {
+        Ok(_) => {
+            tx.commit().await?;
+            Ok(())
+        }
+        Err(e) => {
+            tx.rollback().await?;
+            Err(anyhow::Error::new(e))
+        }
+    }
 }

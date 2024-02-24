@@ -9,7 +9,7 @@ pub fn generate_salt() -> SaltString {
     SaltString::generate(&mut OsRng)
 }
 
-pub fn hash(password: &str, salt: &SaltString) -> Result<String, password_hash::Error> {
+pub fn hash(password: &str, salt: &SaltString) -> anyhow::Result<String, password_hash::Error> {
     let password = password.as_bytes();
 
     let argon2 = Argon2::new(
@@ -23,7 +23,7 @@ pub fn hash(password: &str, salt: &SaltString) -> Result<String, password_hash::
     Ok(password_hash)
 }
 
-pub fn verify(password: &str, hash: &str) -> Result<bool, password_hash::Error> {
+pub fn verify(password: &str, hash: &str) -> anyhow::Result<bool, password_hash::Error> {
     let password = password.as_bytes();
     let hash = PasswordHash::new(hash)?;
 

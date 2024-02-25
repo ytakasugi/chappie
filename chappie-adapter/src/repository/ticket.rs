@@ -1,10 +1,10 @@
-use super::DatabaseRepository;
+use async_trait::async_trait;
 use crate::model::ticket::NewTicketTable;
 use crate::model::ticket::TicketTable;
-use async_trait::async_trait;
 use chappie_kernel::model::ticket::NewTicket;
 use chappie_kernel::model::ticket::Ticket;
 use chappie_kernel::repository::ticket::TicketRepository;
+use super::DatabaseRepository;
 
 #[async_trait]
 impl TicketRepository for DatabaseRepository<Ticket> {

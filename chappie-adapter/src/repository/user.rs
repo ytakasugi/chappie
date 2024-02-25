@@ -1,10 +1,10 @@
-use super::helper;
-use super::DatabaseRepository;
-use crate::model::user::UserTable;
 use async_trait::async_trait;
+use crate::model::user::UserTable;
 use chappie_kernel::model::user::NewUser;
 use chappie_kernel::model::user::User;
 use chappie_kernel::repository::user::UserRepository;
+use super::DatabaseRepository;
+use super::helper;
 
 #[async_trait]
 impl UserRepository for DatabaseRepository<User> {

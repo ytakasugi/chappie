@@ -11,9 +11,6 @@ pub mod user;
 pub mod user_project;
 
 use sqlx::query::Query;
-// use sqlx::PgPool;
-// use sqlx::Pool;
-// use sqlx::Postgres;
 
 #[derive(new)]
 pub struct DatabaseRepository<T> {

@@ -36,10 +36,8 @@ impl TicketRepository for DatabaseRepository<Ticket> {
     }
 
     async fn find(&self, id: i32) -> anyhow::Result<Option<Ticket>> {
-        let pool = self.pool.0.clone();
-
         let ticket_table = sqlx::query_file_as!(TicketTable, "sql/findTicket.sql", id,)
-            .fetch_one(&*pool)
+            .fetch_one(&*self.cloned_connection_pool())
             .await
             .ok();
 
@@ -50,10 +48,8 @@ impl TicketRepository for DatabaseRepository<Ticket> {
     }
 
     async fn list(&self) -> anyhow::Result<Option<Vec<Ticket>>> {
-        let pool = self.pool.0.clone();
-
         let ticket_table = sqlx::query_file_as!(TicketTable, "sql/getTicketList.sql")
-            .fetch_all(&*pool)
+            .fetch_all(&*self.cloned_connection_pool())
             .await
             .ok();
 

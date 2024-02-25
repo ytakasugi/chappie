@@ -1,16 +1,13 @@
-use std::marker::PhantomData;
-
-use derive_new::new;
-
 use crate::persistence::database::Db;
+use derive_new::new;
+use sqlx::{query::Query, Pool, Postgres};
+use std::{marker::PhantomData, sync::Arc};
 
 pub mod helper;
 pub mod project;
 pub mod ticket;
 pub mod user;
 pub mod user_project;
-
-use sqlx::query::Query;
 
 #[derive(new)]
 pub struct DatabaseRepository<T> {
@@ -19,11 +16,15 @@ pub struct DatabaseRepository<T> {
 }
 
 impl<T> DatabaseRepository<T> {
+    pub fn cloned_connection_pool(&self) -> Arc<Pool<Postgres>> {
+        self.pool.0.clone()
+    }
+
     pub async fn execute<'a>(
         &self,
         query: Query<'a, sqlx::Postgres, sqlx::postgres::PgArguments>,
     ) -> Result<(), anyhow::Error> {
-        let mut tx = self.pool.0.begin().await?;
+        let mut tx = self.cloned_connection_pool().begin().await?;
         match query.execute(&mut *tx).await {
             Ok(_) => {
                 tx.commit().await?;
@@ -40,7 +41,8 @@ impl<T> DatabaseRepository<T> {
         &self,
         queries: Vec<Query<'a, sqlx::Postgres, sqlx::postgres::PgArguments>>,
     ) -> Result<(), anyhow::Error> {
-        let mut tx = self.pool.0.begin().await?;
+        let mut tx = self.cloned_connection_pool().begin().await?;
+
         for query in queries {
             match query.execute(&mut *tx).await {
                 Ok(_) => {}

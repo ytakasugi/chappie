@@ -9,7 +9,6 @@ use super::DatabaseRepository;
 use crate::model::user::UserTable;
 
 use super::helper;
-use crate::persistence::database::execute;
 
 #[async_trait]
 impl UserRepository for DatabaseRepository<User> {
@@ -18,8 +17,6 @@ impl UserRepository for DatabaseRepository<User> {
         // パスワードハッシュ化
         let password_hash = helper::hash(&user_table.password, &user_table.salt)
             .map_err(|e| anyhow::anyhow!("Hashing error: {:?}", e))?;
-        // コネクションプール
-        let pool = self.pool.0.clone();
 
         let query = sqlx::query_file_as!(
             UserTable,
@@ -36,7 +33,7 @@ impl UserRepository for DatabaseRepository<User> {
             user_table.delete_flag,
         );
 
-        execute(pool, query).await
+        self.execute(query).await
     }
 }
 

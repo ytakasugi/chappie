@@ -9,13 +9,10 @@ use super::DatabaseRepository;
 use crate::model::ticket::NewTicketTable;
 use crate::model::ticket::TicketTable;
 
-use crate::persistence::database::execute;
-
 #[async_trait]
 impl TicketRepository for DatabaseRepository<Ticket> {
     async fn create(&self, source: NewTicket) -> anyhow::Result<()> {
         let ticket_table: NewTicketTable = source.try_into()?;
-        let pool = self.pool.0.clone();
 
         let query = sqlx::query_file_as!(
             NewTicketTable,
@@ -35,7 +32,7 @@ impl TicketRepository for DatabaseRepository<Ticket> {
             ticket_table.assignee_id,
         );
 
-        execute(pool, query).await
+        self.execute(query).await
     }
 
     async fn find(&self, id: i32) -> anyhow::Result<Option<Ticket>> {

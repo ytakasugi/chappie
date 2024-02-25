@@ -1,12 +1,8 @@
-use std::sync::Arc;
-
-use anyhow::Ok;
-use derive_new::new;
-
+use crate::model::ticket::{CreateTicket, TicketView};
 use chappie_adapter::modules::RepositoriesModuleExt;
 use chappie_kernel::repository::ticket::TicketRepository;
-
-use crate::model::ticket::{CreateTicket, TicketView};
+use derive_new::new;
+use std::sync::Arc;
 
 #[derive(new)]
 pub struct TicketUseCase<R: RepositoriesModuleExt> {

@@ -1,6 +1,5 @@
-use std::sync::Arc;
-
 use chappie_driver::{module::Modules, startup::startup};
+use std::sync::Arc;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {

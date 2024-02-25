@@ -1,17 +1,15 @@
-use std::sync::Arc;
-
+use crate::{
+    model::ticket::{JsonCreateTicket, JsonTicketListView, JsonTicketView},
+    module::{Modules, ModulesExt},
+};
 use axum::{
     extract::{Extension, Path},
     http::StatusCode,
     response::IntoResponse,
     Json,
 };
+use std::sync::Arc;
 use tracing::error;
-
-use crate::{
-    model::ticket::{JsonCreateTicket, JsonTicketListView, JsonTicketView},
-    module::{Modules, ModulesExt},
-};
 
 #[tracing::instrument(skip(modules))]
 pub async fn create(

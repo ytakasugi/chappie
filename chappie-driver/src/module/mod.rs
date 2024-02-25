@@ -1,14 +1,12 @@
-use std::sync::Arc;
-
 use chappie_adapter::{
     modules::{RepositoriesModule, RepositoriesModuleExt},
     persistence::database::Db,
 };
-
-use chappie_app::usecase::project::ProjectUseCase;
-use chappie_app::usecase::ticket::TicketUseCase;
-use chappie_app::usecase::user::UserUseCase;
-use chappie_app::usecase::user_project::UserProjectUseCase;
+use chappie_app::usecase::{
+    project::ProjectUseCase, ticket::TicketUseCase, user::UserUseCase,
+    user_project::UserProjectUseCase,
+};
+use std::sync::Arc;
 
 pub struct Modules {
     user_usecase: UserUseCase<RepositoriesModule>,

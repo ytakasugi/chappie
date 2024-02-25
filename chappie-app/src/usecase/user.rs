@@ -1,11 +1,8 @@
-use std::sync::Arc;
-
-use derive_new::new;
-
+use crate::model::user::CreateUser;
 use chappie_adapter::modules::RepositoriesModuleExt;
 use chappie_kernel::repository::user::UserRepository;
-
-use crate::model::user::CreateUser;
+use derive_new::new;
+use std::sync::Arc;
 
 #[derive(new)]
 pub struct UserUseCase<R: RepositoriesModuleExt> {

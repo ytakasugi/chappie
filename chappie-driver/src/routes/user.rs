@@ -1,12 +1,10 @@
-use std::sync::Arc;
-
-use axum::{extract::Extension, http::StatusCode, response::IntoResponse, Json};
-use tracing::error;
-
 use crate::{
     model::user::JsonCreateUser,
     module::{Modules, ModulesExt},
 };
+use axum::{extract::Extension, http::StatusCode, response::IntoResponse, Json};
+use std::sync::Arc;
+use tracing::error;
 
 #[tracing::instrument(skip(modules))]
 pub async fn create(

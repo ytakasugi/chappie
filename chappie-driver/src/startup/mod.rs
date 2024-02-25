@@ -1,16 +1,14 @@
 use crate::{
     module::Modules,
     routes::{porject, ticket, user, user_project},
+    util::logger,
 };
 use axum::{
     extract::Extension,
     routing::{get, post},
     Router,
 };
-
 use std::{net::SocketAddr, sync::Arc};
-
-use crate::util::logger;
 
 pub async fn startup(modules: Arc<Modules>) {
     logger::init();

@@ -1,6 +1,5 @@
-use chappie_kernel::model::ticket::{NewTicket, Ticket};
-
 use super::helper::convert_str_to_date;
+use chappie_kernel::model::ticket::{NewTicket, Ticket};
 use derive_new::new;
 
 pub struct TicketView {

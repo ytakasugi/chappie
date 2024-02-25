@@ -1,12 +1,9 @@
-use async_trait::async_trait;
-
-use chappie_kernel::model::user_project::NewUserProject;
-use chappie_kernel::model::user_project::UserProject;
-
-use chappie_kernel::repository::user_project::UserProjectRepository;
-
 use super::DatabaseRepository;
 use crate::model::user_project::UserProjectTable;
+use async_trait::async_trait;
+use chappie_kernel::model::user_project::NewUserProject;
+use chappie_kernel::model::user_project::UserProject;
+use chappie_kernel::repository::user_project::UserProjectRepository;
 
 #[async_trait]
 impl UserProjectRepository for DatabaseRepository<UserProject> {

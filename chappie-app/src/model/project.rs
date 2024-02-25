@@ -1,7 +1,6 @@
+use super::helper::convert_string_to_id;
 use chappie_kernel::model::{project::NewProject, Id};
 use derive_new::new;
-
-use super::helper::convert_string_to_id;
 
 #[derive(new)]
 pub struct CreateProject {

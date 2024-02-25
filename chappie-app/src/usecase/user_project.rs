@@ -1,11 +1,8 @@
-use std::sync::Arc;
-
-use derive_new::new;
-
+use crate::model::user_project::CreateUserProject;
 use chappie_adapter::modules::RepositoriesModuleExt;
 use chappie_kernel::repository::user_project::UserProjectRepository;
-
-use crate::model::user_project::CreateUserProject;
+use derive_new::new;
+use std::sync::Arc;
 
 #[derive(new)]
 pub struct UserProjectUseCase<R: RepositoriesModuleExt> {

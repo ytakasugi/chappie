@@ -1,15 +1,14 @@
-use async_trait::async_trait;
+use super::DatabaseRepository;
 use crate::model::user_project::UserProjectTable;
+use async_trait::async_trait;
 use chappie_kernel::model::user_project::NewUserProject;
 use chappie_kernel::model::user_project::UserProject;
 use chappie_kernel::repository::user_project::UserProjectRepository;
-use super::DatabaseRepository;
 
 #[async_trait]
 impl UserProjectRepository for DatabaseRepository<UserProject> {
     async fn create(&self, source: NewUserProject) -> anyhow::Result<()> {
         let user_project_table: UserProjectTable = source.try_into()?;
-        // let pool = self.pool.0.clone();
 
         let query = sqlx::query_file_as!(
             UserProjectTable,

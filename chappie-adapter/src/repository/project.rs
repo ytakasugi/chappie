@@ -1,9 +1,9 @@
-use async_trait::async_trait;
+use super::DatabaseRepository;
 use crate::model::project::ProjectTable;
+use async_trait::async_trait;
 use chappie_kernel::model::project::NewProject;
 use chappie_kernel::model::project::Project;
 use chappie_kernel::repository::project::ProjectRepository;
-use super::DatabaseRepository;
 
 #[async_trait]
 impl ProjectRepository for DatabaseRepository<Project> {

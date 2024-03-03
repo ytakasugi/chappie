@@ -16,7 +16,7 @@ pub struct DatabaseRepository<T> {
 }
 
 impl<T> DatabaseRepository<T> {
-    pub fn cloned_connection_pool(&self) -> Arc<Pool<Postgres>> {
+    pub fn clone_pool(&self) -> Arc<Pool<Postgres>> {
         self.pool.0.clone()
     }
 
@@ -24,7 +24,7 @@ impl<T> DatabaseRepository<T> {
         &self,
         query: Query<'a, Postgres, PgArguments>,
     ) -> Result<(), anyhow::Error> {
-        let mut tx = self.cloned_connection_pool().begin().await?;
+        let mut tx = self.clone_pool().begin().await?;
         match query.execute(&mut *tx).await {
             Ok(_) => {
                 tx.commit().await?;
@@ -41,7 +41,7 @@ impl<T> DatabaseRepository<T> {
         &self,
         queries: Vec<Query<'a, Postgres, PgArguments>>,
     ) -> Result<(), anyhow::Error> {
-        let mut tx = self.cloned_connection_pool().begin().await?;
+        let mut tx = self.clone_pool().begin().await?;
 
         for query in queries {
             match query.execute(&mut *tx).await {

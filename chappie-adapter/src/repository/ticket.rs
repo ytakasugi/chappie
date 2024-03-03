@@ -1,10 +1,10 @@
-use async_trait::async_trait;
+use super::DatabaseRepository;
 use crate::model::ticket::NewTicketTable;
 use crate::model::ticket::TicketTable;
+use async_trait::async_trait;
 use chappie_kernel::model::ticket::NewTicket;
 use chappie_kernel::model::ticket::Ticket;
 use chappie_kernel::repository::ticket::TicketRepository;
-use super::DatabaseRepository;
 
 #[async_trait]
 impl TicketRepository for DatabaseRepository<Ticket> {
@@ -34,7 +34,7 @@ impl TicketRepository for DatabaseRepository<Ticket> {
 
     async fn find(&self, id: i32) -> anyhow::Result<Option<Ticket>> {
         let ticket_table = sqlx::query_file_as!(TicketTable, "sql/findTicket.sql", id,)
-            .fetch_one(&*self.cloned_connection_pool())
+            .fetch_one(&*self.clone_pool())
             .await
             .ok();
 
@@ -46,7 +46,7 @@ impl TicketRepository for DatabaseRepository<Ticket> {
 
     async fn list(&self) -> anyhow::Result<Option<Vec<Ticket>>> {
         let ticket_table = sqlx::query_file_as!(TicketTable, "sql/getTicketList.sql")
-            .fetch_all(&*self.cloned_connection_pool())
+            .fetch_all(&*self.clone_pool())
             .await
             .ok();
 

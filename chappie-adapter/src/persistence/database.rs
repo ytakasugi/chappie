@@ -1,5 +1,5 @@
 use dotenv::dotenv;
-use sqlx::{PgPool, postgres::PgPoolOptions};
+use sqlx::{postgres::PgPoolOptions, PgPool};
 use std::sync::Arc;
 
 #[derive(Clone)]

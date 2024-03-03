@@ -20,13 +20,10 @@ impl<R: RepositoriesModuleExt> UserProjectUseCase<R> {
 
 #[cfg(test)]
 mod test {
-    use std::sync::Arc;
-
-    use chappie_adapter::{modules::RepositoriesModule, persistence::database::Db};
-
-    use crate::model::user_project::CreateUserProject;
-
     use super::UserProjectUseCase;
+    use crate::model::user_project::CreateUserProject;
+    use chappie_adapter::{modules::RepositoriesModule, persistence::database::Db};
+    use std::sync::Arc;
 
     #[tokio::test]
     async fn test_user_project_usecase_create() {

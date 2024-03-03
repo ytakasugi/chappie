@@ -3,7 +3,6 @@ use derive_new::new;
 use sqlx::{postgres::PgArguments, query::Query, Pool, Postgres};
 use std::{marker::PhantomData, sync::Arc};
 
-pub mod helper;
 pub mod project;
 pub mod ticket;
 pub mod user;

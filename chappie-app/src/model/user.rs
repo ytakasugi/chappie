@@ -1,5 +1,5 @@
-use chappie_adapter::repository::helper;
 use chappie_kernel::model::{user::NewUser, Id};
+use chappie_kernel::repository::helper;
 use derive_new::new;
 
 #[derive(new)]

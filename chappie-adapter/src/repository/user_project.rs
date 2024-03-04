@@ -1,8 +1,11 @@
 use super::DatabaseRepository;
 use crate::model::user_project::UserProjectTable;
 use async_trait::async_trait;
+use chappie_kernel::model::project::Project;
+use chappie_kernel::model::user::User;
 use chappie_kernel::model::user_project::NewUserProject;
 use chappie_kernel::model::user_project::UserProject;
+use chappie_kernel::model::Id;
 use chappie_kernel::repository::user_project::UserProjectRepository;
 
 #[async_trait]
@@ -18,6 +21,17 @@ impl UserProjectRepository for DatabaseRepository<UserProject> {
             user_project_table.role,
             user_project_table.created_at,
             user_project_table.updated_at,
+        );
+
+        self.execute(query).await
+    }
+
+    async fn delete(&self, user_id: &Id<User>, project_id: &Id<Project>) -> anyhow::Result<()> {
+        let query = sqlx::query_file_as!(
+            UserProjectTable,
+            "sql/deleteUserProject.sql",
+            user_id.value.to_string(),
+            project_id.value.to_string(),
         );
 
         self.execute(query).await
@@ -49,5 +63,25 @@ mod test {
             ))
             .await
             .unwrap();
+    }
+
+    #[tokio::test]
+    async fn test_delete() {
+        let db = Db::new().await;
+        let repository = DatabaseRepository::new(db);
+        let user_id = Id::new(Ulid::new());
+        let project_id = Id::new(Ulid::new());
+
+        // テスト用データ作成
+        repository
+            .create(NewUserProject::new(
+                user_id.clone(),
+                project_id.clone(),
+                "9".to_string(),
+            ))
+            .await
+            .unwrap();
+
+        repository.delete(&user_id, &project_id).await.unwrap();
     }
 }

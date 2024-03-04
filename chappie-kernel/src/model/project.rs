@@ -4,7 +4,7 @@ use derive_new::new;
 use super::{user::User, Id};
 
 #[allow(clippy::too_many_arguments)]
-#[derive(new, Debug, PartialEq, Eq)]
+#[derive(new, Clone, Debug, PartialEq, Eq)]
 pub struct Project {
     pub project_id: Id<Project>,
     pub project_title: String,

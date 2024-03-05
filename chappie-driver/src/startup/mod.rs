@@ -5,7 +5,7 @@ use crate::{
 };
 use axum::{
     extract::Extension,
-    routing::{get, post},
+    routing::{delete, get, post},
     Router,
 };
 use std::{net::SocketAddr, sync::Arc};
@@ -19,7 +19,9 @@ pub async fn startup(modules: Arc<Modules>) {
         .route("/", post(ticket::create))
         .route("/", get(ticket::list))
         .route("/:id", get(ticket::find));
-    let user_project_router = Router::new().route("/", post(user_project::create));
+    let user_project_router = Router::new()
+        .route("/", post(user_project::create))
+        .route("/:user_id/:project_id", delete(user_project::delete));
 
     let app = Router::new()
         .nest("/users", user_router)

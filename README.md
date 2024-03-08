@@ -1,9 +1,24 @@
 # chappie
 
-## ユーザー作成
+チケット管理を想定したWeb API
+
+## Execute
 
 ```text
-curl -X POST -H "Content-Type: application/json" -d '{"user_name": "admin", "email": "admin@email.com", "password": "PasswordAdmin", "role": "0"}' http://localhost:8080/users
-curl -X POST -H "Content-Type: application/json" -d '{"project_name": "51_Integration_Test3", "description": "Integration_Test3", "manager_id": "01H8Y39CDFYSY86PMB5D4C8YNA"}' http://localhost:8080/projects
-curl -X POST -H "Content-Type: application/json" -d '{"ticket_title": "create test plan", "description": "create test plan next version", "priority": 9,  "status": 9, "progress": 0, "due_date": "2023-12-31", "project_id": 1, "assignee_id": "01H95VREP370GZ080BBH4EZQ6J"}' http://localhost:8080/tickets
+curl -X POST -H "Content-Type: application/json" -d @./json/${JSON_FILE_NAME} http://localhost:8080/${ROUTE}
+```
+
+## SQL
+
+```sql
+TRUNCATE TABLE M_USER;
+TRUNCATE TABLE M_PROJECT;
+TRUNCATE TABLE M_USER_PROJECT;
+TRUNCATE TABLE T_TICKET;
+
+-- check
+SELECT * FROM M_USER;
+SELECT * FROM M_PROJECT;
+SELECT * FROM M_USER_PROJECT;
+SELECT * FROM T_TICKET;
 ```

@@ -1,27 +1,20 @@
+use super::DatabaseRepository;
+use crate::model::user::UserTable;
 use async_trait::async_trait;
-
 use chappie_kernel::model::user::NewUser;
 use chappie_kernel::model::user::User;
-
+use chappie_kernel::repository::helper;
 use chappie_kernel::repository::user::UserRepository;
-
-use super::DatabaseRepository;
-use crate::model::user::NewUserTable;
-
-use super::helper;
 
 #[async_trait]
 impl UserRepository for DatabaseRepository<User> {
     async fn create(&self, source: NewUser) -> anyhow::Result<()> {
-        let user_table: NewUserTable = source.try_into()?;
+        let user_table: UserTable = source.try_into()?;
         // パスワードハッシュ化
-        let password_hash = helper::hash(&user_table.password, &user_table.salt).unwrap();
-        // コネクションプール
-        let pool = self.pool.0.clone();
-        // トランザクションを開始する
-        let mut tx = pool.begin().await.unwrap();
+        let password_hash = helper::hash(&user_table.password, &user_table.salt)
+            .map_err(|e| anyhow::anyhow!("Hashing error: {:?}", e))?;
 
-        let _ = sqlx::query_file_as!(
+        let query = sqlx::query_file_as!(
             UserTable,
             "sql/createUser.sql",
             user_table.user_id,
@@ -30,16 +23,13 @@ impl UserRepository for DatabaseRepository<User> {
             password_hash,
             user_table.salt.to_string(),
             user_table.role,
-        )
-        .execute(&mut *tx)
-        .await?;
+            user_table.status,
+            user_table.created_at,
+            user_table.updated_at,
+            user_table.delete_flag,
+        );
 
-        // トランザクションをコミットする
-        tx.commit()
-            .await
-            .unwrap_or_else(|_| panic!("Commit failed."));
-
-        Ok(())
+        self.execute(query).await
     }
 }
 

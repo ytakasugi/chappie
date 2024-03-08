@@ -1,18 +1,18 @@
-use std::sync::Arc;
-
 use chappie_adapter::{
     modules::{RepositoriesModule, RepositoriesModuleExt},
     persistence::database::Db,
 };
-
-use chappie_app::usecase::project::ProjectUseCase;
-use chappie_app::usecase::ticket::TicketUseCase;
-use chappie_app::usecase::user::UserUseCase;
+use chappie_app::usecase::{
+    project::ProjectUseCase, ticket::TicketUseCase, user::UserUseCase,
+    user_project::UserProjectUseCase,
+};
+use std::sync::Arc;
 
 pub struct Modules {
     user_usecase: UserUseCase<RepositoriesModule>,
     project_usecase: ProjectUseCase<RepositoriesModule>,
     ticket_usecase: TicketUseCase<RepositoriesModule>,
+    user_project_usecase: UserProjectUseCase<RepositoriesModule>,
 }
 
 pub trait ModulesExt {
@@ -21,6 +21,7 @@ pub trait ModulesExt {
     fn user_usecase(&self) -> &UserUseCase<Self::RepositoriesModule>;
     fn project_usecase(&self) -> &ProjectUseCase<Self::RepositoriesModule>;
     fn ticket_usecase(&self) -> &TicketUseCase<Self::RepositoriesModule>;
+    fn user_project_usecase(&self) -> &UserProjectUseCase<Self::RepositoriesModule>;
 }
 
 impl ModulesExt for Modules {
@@ -37,6 +38,10 @@ impl ModulesExt for Modules {
     fn ticket_usecase(&self) -> &TicketUseCase<Self::RepositoriesModule> {
         &self.ticket_usecase
     }
+
+    fn user_project_usecase(&self) -> &UserProjectUseCase<Self::RepositoriesModule> {
+        &self.user_project_usecase
+    }
 }
 
 impl Modules {
@@ -47,11 +52,13 @@ impl Modules {
         let user_usecase = UserUseCase::new(repositories_module.clone());
         let project_usecase = ProjectUseCase::new(repositories_module.clone());
         let ticket_usecase = TicketUseCase::new(repositories_module.clone());
+        let user_project_usecase = UserProjectUseCase::new(repositories_module.clone());
 
         Self {
             user_usecase,
             ticket_usecase,
             project_usecase,
+            user_project_usecase,
         }
     }
 }

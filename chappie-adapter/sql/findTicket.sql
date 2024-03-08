@@ -1,0 +1,7 @@
+SELECT
+  *
+FROM
+  T_TICKET
+WHERE
+  1 = 1
+  AND TICKET_ID = $1

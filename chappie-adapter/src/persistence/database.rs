@@ -1,7 +1,6 @@
 use dotenv::dotenv;
+use sqlx::{postgres::PgPoolOptions, PgPool};
 use std::sync::Arc;
-
-use sqlx::PgPool;
 
 #[derive(Clone)]
 pub struct Db(pub(crate) Arc<PgPool>);
@@ -17,7 +16,7 @@ impl Db {
         // `sqlx::pool::PoolOptions::max_connections`の引数は、u32なので型変換
         let max_connection_pool = env_connection_pool.parse::<u32>().unwrap();
 
-        let pool = sqlx::postgres::PgPoolOptions::new()
+        let pool = PgPoolOptions::new()
             .max_connections(max_connection_pool)
             .connect(&database_url)
             .await

@@ -1,11 +1,8 @@
-use std::sync::Arc;
-
-use derive_new::new;
-
+use crate::model::user::CreateUser;
 use chappie_adapter::modules::RepositoriesModuleExt;
 use chappie_kernel::repository::user::UserRepository;
-
-use crate::model::user::CreateUser;
+use derive_new::new;
+use std::sync::Arc;
 
 #[derive(new)]
 pub struct UserUseCase<R: RepositoriesModuleExt> {
@@ -23,16 +20,13 @@ impl<R: RepositoriesModuleExt> UserUseCase<R> {
 
 #[cfg(test)]
 mod test {
+    use super::UserUseCase;
+    use crate::model::user::CreateUser;
+    use chappie_adapter::{modules::RepositoriesModule, persistence::database::Db};
     use std::sync::Arc;
 
-    use chappie_adapter::{modules::RepositoriesModule, persistence::database::Db};
-
-    use crate::model::user::CreateUser;
-
-    use super::UserUseCase;
-
     #[tokio::test]
-    async fn create() {
+    async fn test_user_usecase_create() {
         let modules = RepositoriesModule::new(Db::new().await);
         let usecase = UserUseCase::new(Arc::new(modules));
 

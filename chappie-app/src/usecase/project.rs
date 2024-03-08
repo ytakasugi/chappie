@@ -1,11 +1,8 @@
-use std::sync::Arc;
-
-use derive_new::new;
-
+use crate::model::project::CreateProject;
 use chappie_adapter::modules::RepositoriesModuleExt;
 use chappie_kernel::repository::project::ProjectRepository;
-
-use crate::model::project::CreateProject;
+use derive_new::new;
+use std::sync::Arc;
 
 #[derive(new)]
 pub struct ProjectUseCase<R: RepositoriesModuleExt> {
@@ -32,13 +29,31 @@ mod test {
     use super::ProjectUseCase;
 
     #[tokio::test]
-    async fn create() {
+    async fn est_project_usecase_create() {
         let modules = RepositoriesModule::new(Db::new().await);
         let usecase = ProjectUseCase::new(Arc::new(modules));
 
         let source = CreateProject::new(
-            "UseCaseTestProject".to_string(),
+            "UsecaseTestProject".to_string(),
+            "usecase_test_project".to_string(),
             "Usecase Test project".to_string(),
+            Some("01H8Y39CDFYSY86PMB5D4C8YNA".to_string()),
+            "01H8Y39CDFYSY86PMB5D4C8YNA".to_string(),
+        );
+
+        usecase.create(source).await.unwrap();
+    }
+
+    #[tokio::test]
+    async fn test_project_usecase_create_noparent() {
+        let modules = RepositoriesModule::new(Db::new().await);
+        let usecase = ProjectUseCase::new(Arc::new(modules));
+
+        let source = CreateProject::new(
+            "UsecaseTestProject".to_string(),
+            "usecase_test_project".to_string(),
+            "Usecase Test project".to_string(),
+            None,
             "01H8Y39CDFYSY86PMB5D4C8YNA".to_string(),
         );
 

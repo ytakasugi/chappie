@@ -1,7 +1,6 @@
 use chappie_kernel::model::{user::NewUser, Id};
+use chappie_kernel::repository::helper;
 use derive_new::new;
-
-use chappie_adapter::repository::helper;
 
 #[derive(new)]
 pub struct CreateUser {

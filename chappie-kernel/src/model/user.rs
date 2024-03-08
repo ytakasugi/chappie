@@ -5,7 +5,7 @@ use derive_new::new;
 use super::Id;
 
 #[allow(clippy::too_many_arguments)]
-#[derive(new, Debug, PartialEq, Eq)]
+#[derive(new, Clone, Debug, PartialEq, Eq)]
 pub struct User {
     pub user_id: Id<User>,
     pub user_name: String,
